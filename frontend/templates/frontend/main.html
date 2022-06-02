@@ -1,0 +1,52 @@
+{% load tailwind_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta's help in search engine optimization -->
+    <meta name="keywords"
+        content="Gleiche gleiche gleiche_foundation gleichefoundation gleichefoundation.org gleiche foudation charity charity_organization charity_organization_cameroon cameroon non-profit-organization non-profit-organization-in_cameroon">
+    <meta name="description" content="This is The Official Gleiche Foundation website">
+    <meta name="author" content="Gleiche Foundation Tech Team">
+
+    <link rel="shortcut icon" type="image/jpg" href="{% static 'assets/gleichefoundationLogo.png' %}" />
+    {% tailwind_css %}
+
+    <!-- google font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Alphine js light weight js library -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Iodine js for form validation -->
+    <script src="https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.js" defer></script>
+
+    <!-- Swiper js -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+    {% block content %}
+
+    {% endblock %}
+</body>
+
+</html>
