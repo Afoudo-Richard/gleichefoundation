@@ -1,21 +1,147 @@
 {% extends 'frontend/main.html' %}
 
+{% block header %}
+<!-- Iodine js for form validation -->
+<script src="https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.js" defer></script>
+{% endblock %}
+
 {% block title %}
-    Home
+Home
 {% endblock %}
 
 {% block content %}
 
-    {% include 'frontend/includes/header.html' %}
-    {% include 'frontend/includes/hero.html' %}
-    {% include 'frontend/includes/whoweare.html' %}
-    {% include 'frontend/includes/whatwedo.html' %}
-    {% include 'frontend/includes/donation_banner.html' %}
-    {% include 'frontend/includes/volunteers.html' %}
-    {% include 'frontend/includes/testimonial.html' %}
-    {% include 'frontend/includes/news_blog.html' %}
-    {% include 'frontend/includes/contact_form.html' %}
-    {% include 'frontend/includes/footer.html' %}
 
+{% include 'frontend/includes/hero.html' %}
+{% include 'frontend/includes/whoweare.html' %}
+{% include 'frontend/includes/whatwedo.html' %}
+{% include 'frontend/includes/donation_banner.html' %}
+{% include 'frontend/includes/volunteers.html' %}
+{% include 'frontend/includes/testimonial.html' %}
+{% include 'frontend/includes/news_blog.html' %}
+{% include 'frontend/includes/contact_form.html' %}
+
+
+
+{% endblock %}
+
+
+{% block jsScripts %}
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            },
+            768: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            },
+            1024: {
+                slidesPerView: 1,
+                spaceBetween: 25,
+            },
+            1440: {
+                slidesPerView: 1,
+                spaceBetween: 25,
+            },
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        effect: "coverflow",
+        coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+        },
+    });
+
+    // testimonial swiper
+    var swiper = new Swiper(".TestimonialSwiper", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 25,
+            },
+            1440: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            },
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+
+    // volunteer swiper
+    var swiper = new Swiper(".VolunteerSwiper", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 25,
+            },
+            1440: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            },
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+</script>
 
 {% endblock %}
