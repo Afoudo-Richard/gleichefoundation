@@ -1,0 +1,29 @@
+
+{% extends 'frontend/main.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'frontend/includes/page_banner.html' with text="Picture Gallery" %}
+
+<div class="bg-gray-200">
+    <div class="container py-6 md:py-12 flex flex-col gap-4 ">
+    
+        <div class="container py-6 md:py-12 flex flex-col gap-4">
+            <div class="w-full lg:w-3/6 mx-auto py-6 md:py-12 flex flex-col items-center gap-6">
+                <div class="flex flex-col items-center gap-3">
+                    <span class="font-patrick-hand text-3xl md:text-4xl lg:text-5xl">Explore Our Gallery</span>
+                    <div class="w-24 h-1 bg-primary rounded-md"></div>
+                </div>
+                <p class="text-center text-sm md:text-base lg:text-lg text-secondary">
+                    Enjoy our best moments
+            </div>
+            <div class="py-12">
+                pictures here
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

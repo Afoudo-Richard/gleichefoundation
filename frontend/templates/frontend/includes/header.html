@@ -46,19 +46,25 @@
                 <li class="border-b-2 border-white hover:border-primary transition-all">
                     <a href="{% url 'home' %}" class="text-lg xl:text-2xl">Home</a>
                 </li>
-                <li class="border-b-2 border-white hover:border-primary transition-all">
-                    <a href="#" class="text-lg xl:text-2xl">Contact</a>
-                </li>
+
                 <li class="border-b-2 border-white hover:border-primary transition-all">
                     <a href="{% url 'about' %}" class="text-lg xl:text-2xl">About</a>
                 </li>
                 <li class="border-b-2 border-white hover:border-primary transition-all">
-                    <a href="#" class="text-lg xl:text-2xl">Upcoming Event</a>
+                    <a href="{% url 'news_blog' %}" class="text-lg xl:text-2xl">News&Blog</a>
                 </li>
+                <li class="border-b-2 border-white hover:border-primary transition-all">
+                    <a href="{% url 'upcoming_events' %}" class="text-lg xl:text-2xl">Upcoming Event</a>
+                </li>
+
+                <li class="border-b-2 border-white hover:border-primary transition-all">
+                    <a href="{% url 'contact' %}" class="text-lg xl:text-2xl">Contact</a>
+                </li>
+
                 <li @click.away="open = false" x-data="{ open: false }"
                     class="relative border-b-2 border-white hover:border-primary transition-all">
                     <a @click="open = !open" class="text-lg xl:text-2xl flex items-center gap-2 cursor-pointer">
-                        <span>Dropdown</span>
+                        <span>More</span>
                         <span class="transition-transform duration-200 transform text-sm"
                             :class="{'rotate-180': open, 'rotate-0': !open}"><i
                                 class="fa-solid fa-chevron-down"></i></span>
@@ -71,12 +77,17 @@
                         x-transition:leave-end="transform opacity-0 scale-95"
                         class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48 z-50">
                         <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-                            <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="#">Link #1</a>
-                            <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="#">Link #2</a>
-                            <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="#">Link #3</a>
+                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                href="{% url 'executives' %}">Our Executives</a>
+                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                href="{% url 'volunteers' %}">Our Volunteers</a>
+                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                href="{% url 'become_volunteer' %}">Be A Volunteer</a>
+
+                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                href="{% url 'picture_gallery' %}">Picture Gallery</a>
+                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                href="{% url 'login' %}">Login</a>
                         </div>
                     </div>
                 </li>

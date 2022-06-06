@@ -12,16 +12,39 @@ from campay.sdk import Client
 
 def index(request):
     return render(request, "frontend/index.html")
+
 def donate(request):
     return render(request, "frontend/donate.html")
+
 def about(request):
     return render(request, "frontend/about.html")
 
+def news_blog(request):
+    return render(request, "frontend/news.html")
+
+def upcoming_events(request):
+    return render(request, "frontend/upcoming_event.html")
+
+def executives(request):
+    return render(request, "frontend/executives.html")
+
+def become_volunteer(request):
+    return render(request, "frontend/become_volunteer.html")
+
+def contact(request):
+    return render(request, "frontend/contact.html")
+
+def login(request):
+    return render(request, "frontend/login.html")
+
+def volunteers(request):
+    return render(request, "frontend/volunteers.html")
+
+def picture_gallery(request):
+    return render(request, "frontend/picture_gallery.html")
+
+
 def donate_through_mobile_money(request):
-
-    
-
-
 
     if request.method == "POST":
         received_json_data=json.loads(request.body)
