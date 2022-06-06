@@ -156,6 +156,6 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 # Custom setting. To email
-RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
+# RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
 
-my_secret = os.environ.get("MY_SECRET", 'dev default value')
+# my_secret = os.environ.get("MY_SECRET", 'dev default value')
