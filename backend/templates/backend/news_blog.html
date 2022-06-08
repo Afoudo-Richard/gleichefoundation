@@ -1,0 +1,41 @@
+{% extends 'backend/main.html' %}
+
+
+{% block main %}
+
+
+<div class="flex justify-between">
+    {% include 'backend/includes/page_header.html' with title='News & Blog' %}
+
+    <div>
+        Button
+    </div>
+</div>
+
+<div class=" mt-5">
+    <table class="table_id display" >
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date Created</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for item in "12345"|make_list %}
+            
+
+            <tr>
+                <td>Richard</td>
+                <td>22/05/2022</td>
+                <td>Actions</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

@@ -1,4 +1,5 @@
 import json
+import os
 from urllib import request
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -11,7 +12,11 @@ from campay.sdk import Client
 
 
 def index(request):
-    return render(request, "frontend/index.html")
+    context = {
+        
+        'password': settings.EMAIL_HOST_PASSWORD,
+    }
+    return render(request, "frontend/index.html", context)
 
 def donate(request):
     return render(request, "frontend/donate.html")
