@@ -8,7 +8,8 @@
     {% include 'backend/includes/page_header.html' with title='News & Blog' %}
 
     <div>
-        Button
+        {% url 'add_news_blog' as action_url %}
+        {% include 'backend/components/link_button.html' with text="Add News&Blog" link=action_url %}
     </div>
 </div>
 
@@ -23,13 +24,13 @@
         </thead>
         <tbody>
             
-            {% for item in "12345"|make_list %}
+            {% for item in news_blogs %}
             
 
             <tr>
-                <td>Richard</td>
-                <td>22/05/2022</td>
-                <td>Actions</td>
+                <td>{{item.title}}</td>
+                <td>{{item.date_created}}</td>
+                <td>{{item.publish}}</td>
             </tr>
             {% endfor %}
 

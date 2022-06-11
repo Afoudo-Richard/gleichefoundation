@@ -1,6 +1,7 @@
 import json
 import os
 from urllib import request
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.core.mail import send_mail,EmailMessage
@@ -73,23 +74,29 @@ def donate_through_mobile_money(request):
     return render(request, "frontend/mobile_money.html")
 
 def contact_gleiche(request):
-    
-    msg_html = render_to_string('frontend/custom-email.html', {'name': request.POST.get("fullname"), 'subject': request.POST.get("subject")})
-    # send_mail(
-    #     subject='Hello from ArcTest on VIP consultanc cameroon',
-    #     message='A stunning message',
-    #     from_email=settings.EMAIL_HOST_USER,
-    #     recipient_list=['richardafoudo07@gmail.com'],
-    #     html_message=msg_html,
-    #     )
 
-    email = EmailMessage(
-        "Gleiche Foundation",
-        msg_html,
-        settings.EMAIL_HOST_USER,
-        ['richardafoudo07@gmail.com', 'marcellusfon002@gmail.com'],
-        )
-    email.fail_silently = True
-    email.content_subtype = "html"
-    email.send()
-    return redirect('home')
+    if request.method == "POST":
+        received_json_data=json.loads(request.body)
+        print(received_json_data)
+    
+        msg_html = render_to_string('frontend/custom-email.html', {'name': request.POST.get("fullname"), 'subject': request.POST.get("subject")})
+        # send_mail(
+        #     subject='Hello from ArcTest on gleiche foundation,
+        #     message='A stunning message',
+        #     from_email=settings.EMAIL_HOST_USER,
+        #     recipient_list=['richardafoudo07@gmail.com'],
+        #     html_message=msg_html,
+        #     )
+
+        email = EmailMessage(
+            "Gleiche Foundation",
+            msg_html,
+            settings.EMAIL_HOST_USER,
+            ['richardafoudo07@gmail.com'],
+            )
+        email.fail_silently = True
+        email.content_subtype = "html"
+        email.send()
+        return redirect('home')
+
+    return HttpResponseBadRequest("asdfas asd fasd")

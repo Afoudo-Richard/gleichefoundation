@@ -10,8 +10,15 @@
         </div>
 
         <div class="w-full">
-            <div class="md:w-10/12 lg:w-9/12 mx-auto sm:p-6">
-                <form action="{% url 'contact_gleiche' %}" id="contact_form" x-ref="contact_form" x-data="contact_form"
+
+
+            <div class="relative md:w-10/12 lg:w-9/12 mx-auto sm:p-6" x-data="contact_form">
+                <div class="absolute inset-0 bg-primary/50 w-full h-full z-20 flex flex-col justify-center items-center"
+                    :class="{'hidden': isLoading ==false}">
+                    <div x-text="formMessage"></div>
+                    <spa class="text-secondary text-2xl">Sending ...</span>
+                </div>
+                <form action="{% url 'contact_gleiche' %}" id="contact_form" x-ref="contact_form"
                     @submit.prevent="submit" method="POST">
                     {% csrf_token %}
                     <div class="w-full grid grid-cols-8 gap-4 p-4">
@@ -19,11 +26,11 @@
                             <label for="first-name" class="block text-sm font-medium text-gray-700">Full Name</label>
                             <input type="text" name="fullname" id="first-name" autocomplete="given-name"
                                 class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                :class="{'border-red-600':fields.firstname.isValid == false}"
-                                x-model="fields.firstname.value" @blur="fields.firstname.validate(validationCallback)"
-                                @input="fields.firstname.validate(validationCallback)">
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.firstname.isValid == false">
-                                <span x-text="fields.firstname.errorMsg"></span>
+                                :class="{'border-red-600':fields.fullname.isValid == false}"
+                                x-model="fields.fullname.value" @blur="fields.fullname.validate(validationCallback)"
+                                @input="fields.fullname.validate(validationCallback)">
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.fullname.isValid == false">
+                                <span x-text="fields.fullname.errorMsg"></span>
                             </p>
                         </div>
 
@@ -99,7 +106,7 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('contact_form', () => ({
             fields: {
-                firstname: {
+                fullname: {
                     value: '',
                     rules: ["required"],
                     isValid: null,
@@ -146,6 +153,8 @@
 
             },
             isFormValid: true,
+            formMessage : "asdf asd fa",
+            isLoading: false,
             validationCallback(field) {
                 let { value, rules } = field;
                 let isValid = Iodine.isValid(value, rules);
@@ -164,7 +173,50 @@
                         field.validate(this.validationCallback)
                     });
                 } else {
-                    this.$refs.contact_form.submit()
+                    // this.$refs.mobile_money_donate_form.submit()
+
+
+                    const FORM_URL = "{% url 'contact_gleiche' %}";
+
+                    formData = {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        fullname: this.fields.fullname.value,
+                        email: this.fields.email.value,
+                        subject: this.fields.subject.value,
+                        message: this.fields.message.value,
+                    }
+
+                    this.formMessage = "";
+                    this.isLoading = true;
+                    fetch(FORM_URL, {
+                        method: "POST",
+                        credentials: 'same-origin',
+                        headers: {
+                            "Content-Type": "application/json",
+                            Accept: "application/json",
+                            "X-CSRFToken": '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify(formData),
+                    })
+                        .then(() => {
+
+                            setTimeout(function () {
+                                this.formMessage = "Message sent successfully"
+                            }, 5000);
+                            
+
+                            this.fields.fullname.value = "";
+                            this.fields.email.value = "";
+                            this.fields.subject.value = "";
+                            this.fields.message.value = "";
+                            this.formMessage = "Form successfully submitted.";
+
+                            this.isLoading = false
+                        })
+                        .catch(() => {
+                            this.isLoading = false
+                            this.formMessage = "Something went wrong.";
+                        });
                 }
 
             }
