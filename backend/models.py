@@ -5,9 +5,10 @@ from django.db import models
 
 class NewsBlog(models.Model):
     title = models.CharField(max_length=200, null=False)
-    context = models.TextField()
-    image = models.CharField(max_length=200,)
+    content = models.TextField()
+    image = models.ImageField(upload_to="NewBlogThumbnail")
     publish = models.BooleanField(default=False)
+    user_comment = models.TextField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

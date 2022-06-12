@@ -32,97 +32,108 @@
     </div>
 </div>
 
-<div x-data="{ open: false, showBar: true }"
-    :class="{'fixed -top-72 left-0 right-0 transition duration-200 transform translate-y-72': showBar}"
-    class="z-30 bg-white shadow-lg" @scroll.window="showBar = (window.pageYOffset > 20) ? true : false">
-    <div
-        class="container py-2 flex justify-between items-center font-patrick-hand  bg-white w-full border-t border-gray-200">
-        <div class="w-10 h-10 lg:w-12 lg:h-12">
-            <img class="w-full h-auto" src="{% static 'assets/gleichefoundationLogo.png' %}" alt="">
-        </div>
+<div x-data="{ open_side_nav: false, }">
+    <div x-data="{ open: false, showBar: true }"
+        :class="{'fixed -top-72 left-0 right-0 transition duration-200 transform translate-y-72': showBar}"
+        class="z-30 bg-white shadow-lg" @scroll.window="showBar = (window.pageYOffset > 20) ? true : false">
+        <div
+            class="container py-2 flex justify-between items-center font-patrick-hand  bg-white w-full border-t border-gray-200">
+            <div class="w-10 h-10 lg:w-12 lg:h-12">
+                <img class="w-full h-auto" src="{% static 'assets/gleichefoundationLogo.png' %}" alt="">
+            </div>
 
-        <div class="hidden lg:block ">
-            <ul class="flex items-center gap-7">
-                <li class="border-b-2 border-white hover:border-primary transition-all">
-                    <a href="{% url 'home' %}" class="text-lg xl:text-2xl">Home</a>
-                </li>
+            <div class="hidden lg:block ">
+                <ul class="flex items-center gap-7">
+                    <li class="border-b-2 border-white hover:border-primary transition-all">
+                        <a href="{% url 'home' %}" class="text-lg xl:text-2xl">Home</a>
+                    </li>
 
-                <li class="border-b-2 border-white hover:border-primary transition-all">
-                    <a href="{% url 'about' %}" class="text-lg xl:text-2xl">About</a>
-                </li>
-                <li class="border-b-2 border-white hover:border-primary transition-all">
-                    <a href="{% url 'news_blog' %}" class="text-lg xl:text-2xl">News&Blog</a>
-                </li>
-                <li class="border-b-2 border-white hover:border-primary transition-all">
-                    <a href="{% url 'upcoming_events' %}" class="text-lg xl:text-2xl">Upcoming Event</a>
-                </li>
+                    <li class="border-b-2 border-white hover:border-primary transition-all">
+                        <a href="{% url 'about' %}" class="text-lg xl:text-2xl">About</a>
+                    </li>
+                    <li class="border-b-2 border-white hover:border-primary transition-all">
+                        <a href="{% url 'news_blog' %}" class="text-lg xl:text-2xl">News&Blog</a>
+                    </li>
+                    <li class="border-b-2 border-white hover:border-primary transition-all">
+                        <a href="{% url 'upcoming_events' %}" class="text-lg xl:text-2xl">Upcoming Event</a>
+                    </li>
 
-                <li class="border-b-2 border-white hover:border-primary transition-all">
-                    <a href="{% url 'contact' %}" class="text-lg xl:text-2xl">Contact</a>
-                </li>
+                    <li class="border-b-2 border-white hover:border-primary transition-all">
+                        <a href="{% url 'contact' %}" class="text-lg xl:text-2xl">Contact</a>
+                    </li>
 
-                <li @click.away="open = false" x-data="{ open: false }"
-                    class="relative border-b-2 border-white hover:border-primary transition-all">
-                    <a @click="open = !open" class="text-lg xl:text-2xl flex items-center gap-2 cursor-pointer">
-                        <span>More</span>
-                        <span class="transition-transform duration-200 transform text-sm"
-                            :class="{'rotate-180': open, 'rotate-0': !open}"><i
-                                class="fa-solid fa-chevron-down"></i></span>
-                    </a>
-                    <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                        x-transition:enter-start="transform opacity-0 scale-95"
-                        x-transition:enter-end="transform opacity-100 scale-100"
-                        x-transition:leave="transition ease-in duration-75"
-                        x-transition:leave-start="transform opacity-100 scale-100"
-                        x-transition:leave-end="transform opacity-0 scale-95"
-                        class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48 z-50">
-                        <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="{% url 'executives' %}">Our Executives</a>
-                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="{% url 'volunteers' %}">Our Volunteers</a>
-                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="{% url 'become_volunteer' %}">Be A Volunteer</a>
+                    <li @click.away="open = false" x-data="{ open: false }"
+                        class="relative border-b-2 border-white hover:border-primary transition-all">
+                        <a @click="open = !open" class="text-lg xl:text-2xl flex items-center gap-2 cursor-pointer">
+                            <span>More</span>
+                            <span class="transition-transform duration-200 transform text-sm"
+                                :class="{'rotate-180': open, 'rotate-0': !open}"><i
+                                    class="fa-solid fa-chevron-down"></i></span>
+                        </a>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48 z-50">
+                            <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
+                                <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    href="{% url 'executives' %}">Our Executives</a>
+                                <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    href="{% url 'volunteers' %}">Our Volunteers</a>
+                                <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    href="{% url 'become_volunteer' %}">Be A Volunteer</a>
 
-                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="{% url 'picture_gallery' %}">Picture Gallery</a>
-                            <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="{% url 'login' %}">Login</a>
+                                <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    href="{% url 'picture_gallery' %}">Picture Gallery</a>
+                                <a class="block px-4 py-2 mt-2 text-lg font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    href="{% url 'login' %}">Login</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lg:hidden">
+                <span class="text-2xl cursor-pointer text-secondary" @click="open_side_nav = !open_side_nav">
+                    <i class="fa-solid fa-bars"></i>
+                </span>
+            </div>
+
+
         </div>
 
-        <div class="lg:hidden">
-            <span class="text-xl">
-                <i class="fa-solid fa-bars"></i>
-            </span>
-        </div>
 
 
     </div>
 
+    <div class="fixed inset-0 bg-primary-300/40 z-50 flex justify-end transform translate-x-full transition-all" :class="{'translate-x-0':open_side_nav}" >
+        
+        <div class="w-9/12 h-full bg-white rounded-tl-3xl border-l-4 border-secondary flex flex-col gap-2 font-patrick-hand px-5 pt-12">
+            <div class="mb-5" @click="open_side_nav = false">
+                <span class="text-2xl text-secondary">
+                    <i class="fa-solid fa-xmark"></i>
+                </span>
+            </div>
+            <a href="#" class="text-lg xl:text-2xl">Home</a>
+            <a href="#" class="text-lg xl:text-2xl">About</a>
+            <a href="#" class="text-lg xl:text-2xl">Donate</a>
+            <div @click.away="openDropdown = false" x-data="{ openDropdown: false,hahahh:'richard arc' }">
+                <a @click="openDropdown = !openDropdown" class="text-lg xl:text-2xl">
+                    <span>upcoming events</span>
+                    <span class="transition-transform duration-200 transform text-sm"
+                        :class="{'rotate-180': openDropdown, 'rotate-0': !openDropdown}"><i
+                            class="fa-solid fa-chevron-down"></i></span>
+                    <div x-show="openDropdown" class="pl-6 flex flex-col" :class="{'hidden': openDropdown == false}">
+                        <a href="#" class="text-lg xl:text-2xl">Home</a>
+                        <a href="#" class="text-lg xl:text-2xl">About</a>
+                        <a href="#" class="text-lg xl:text-2xl">Donate</a>
+                    </div>
+                </a>
+            </div>
+            <a href="#" class="text-lg xl:text-2xl">Donate</a>
+        </div>
+    </div>
 
 </div>
-
-<!-- <div class="fixed inset-0 bg-primary-300/40 z-50 flex justify-end">
-    <div class="w-9/12 h-full bg-white rounded-tl-3xl flex flex-col gap-2 font-patrick-hand px-5 pt-12">
-        <a href="#" class="text-lg xl:text-2xl">Home</a>
-        <a href="#" class="text-lg xl:text-2xl">About</a>
-        <a href="#" class="text-lg xl:text-2xl">Donate</a>
-        <div @click.away="openDropdown = false" x-data="{ openDropdown: false }">
-            <p x-text="hahahh"></p>
-            <a href="#" @click="openDropdown = !openDropdown" class="text-lg xl:text-2xl">
-                <span>upcoming events</span>
-                <span class="transition-transform duration-200 transform text-sm"
-                    :class="{'rotate-180': openDropdown, 'rotate-0': !openDropdown}"><i class="fa-solid fa-chevron-down"></i></span>
-                <div x-show="openDropdown" class="pl-6 flex flex-col">
-                    <a href="#" class="text-lg xl:text-2xl">Home</a>
-                    <a href="#" class="text-lg xl:text-2xl">About</a>
-                    <a href="#" class="text-lg xl:text-2xl">Donate</a>
-                </div>
-            </a>
-        </div>
-    </div>
-</div> -->

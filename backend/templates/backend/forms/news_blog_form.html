@@ -29,7 +29,7 @@
 
         <div class="w-full">
             <div class="md:w-10/12 lg:w-9/12 mx-auto sm:p-6">
-                <form action="{% url 'contact_gleiche' %}" id="contact_form" x-ref="contact_form" x-data="contact_form"
+                <form action="{% url 'add_news_blog' %}" enctype="multipart/form-data" id="contact_form" x-ref="contact_form" x-data="contact_form"
                     @submit.prevent="submit" method="POST">
                     {% csrf_token %}
                     <div class="w-full grid grid-cols-8 gap-4 p-4">
@@ -49,50 +49,50 @@
                         </div>
                         <!-- TinyMCE -->
                         <div class="col-span-8 ">
-                            <label for="about" class="block text-sm font-medium text-gray-700"> Message </label>
+                            <label for="about" class="block text-sm font-medium text-gray-700"> Content </label>
                             <div class="mt-1">
 
-                                <textarea id="basic-example">
-                                    
+                                <textarea id="basic-example" name="content">
+
                                 </textarea>
 
 
 
                             </div>
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.message.isValid == false">
-                                <span x-text="fields.message.errorMsg"></span>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.content.isValid == false">
+                                <span x-text="fields.content.errorMsg"></span>
                             </p>
                         </div>
 
                         <div class="col-span-8 ">
-                            <label for="about" class="block text-sm font-medium text-gray-700"> Message </label>
+                            <label for="about" class="block text-sm font-medium text-gray-700"> Gleiche Comment </label>
                             <div class="mt-1">
-                                <textarea id="about" name="about" rows="3"
+                                <textarea id="about" name="user_comment" rows="3"
                                     class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                                    placeholder="Write your message here"
-                                    :class="{'border-red-600':fields.message.isValid == false}"
-                                    x-model="fields.message.value" @blur="fields.message.validate(validationCallback)"
-                                    @input="fields.message.validate(validationCallback)">
+                                    placeholder="Write your comment here"
+                                    :class="{'border-red-600':fields.comment.isValid == false}"
+                                    x-model="fields.comment.value" @blur="fields.comment.validate(validationCallback)"
+                                    @input="fields.comment.validate(validationCallback)">
 
 
                                 </textarea>
                             </div>
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.message.isValid == false">
-                                <span x-text="fields.message.errorMsg"></span>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.comment.isValid == false">
+                                <span x-text="fields.comment.errorMsg"></span>
                             </p>
                         </div>
 
-                        <label for="id_image">Image</label><br>
-						<input type="file" id="id_image" name="image" accept="image/*"><br>
+                        <div class="col-span-8">
+                            <label for="id_image">Image</label><br>
+                            <input type="file" id="id_image" name="image" accept="image/*"><br>
 
-                        <div class="form-group">
-                            <div id="image-box" class="image-container"></div>
-                            <button class="btn btn-outline-info" id="crop-btn"
-                                style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
-                            <button class="btn btn-outline-info" id="confirm-btn" style="width: 100%; margin-top: 10px;"
-                                type="submit">Post</button>
+                            <div class="form-group">
+                                <div id="image-box" class="image-container"></div>
+                                <button class="btn btn-outline-info" id="crop-btn"
+                                    style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
+                            </div>
+
                         </div>
-
 
                     </div>
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-center">
@@ -105,7 +105,9 @@
 
         <div class="hidden sm:block" aria-hidden="true">
             <div class="py-5">
-                <div class="border-t border-gray-200"></div>
+                <div class="border-t border-gray-200">
+                    {{form.errors}}
+                </div>
             </div>
         </div>
 
@@ -156,17 +158,6 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('contact_form', () => ({
             fields: {
-                firstname: {
-                    value: '',
-                    rules: ["required"],
-                    isValid: null,
-                    errorMsg: null,
-                    validate(callback) {
-                        let { isValid, errorMsg } = callback(this);
-                        this.isValid = isValid;
-                        this.errorMsg = errorMsg;
-                    },
-                },
                 title: {
                     value: '',
                     rules: ["required"],
@@ -178,18 +169,19 @@
                         this.errorMsg = errorMsg;
                     },
                 },
-                email: {
-                    value: '',
-                    rules: ["required", "email"],
-                    isValid: null,
-                    errorMsg: null,
-                    validate(callback) {
-                        let { isValid, errorMsg } = callback(this);
-                        this.isValid = isValid;
-                        this.errorMsg = errorMsg;
-                    },
-                },
-                message: {
+                // content: {
+                //     value: '',
+                //     rules: ["required"],
+                //     isValid: null,
+                //     errorMsg: null,
+                //     validate(callback) {
+                //         let { isValid, errorMsg } = callback(this);
+                //         this.isValid = isValid;
+                //         this.errorMsg = errorMsg;
+                //     },
+                // },
+                
+                comment: {
                     value: '',
                     rules: ["required"],
                     isValid: null,
@@ -257,7 +249,7 @@
         // Displaying the Crop buttton
         document.getElementById('crop-btn').style.display = 'block'
         // Hiding the Post button
-        document.getElementById('confirm-btn').style.display = 'none'
+        // document.getElementById('confirm-btn').style.display = 'none'
 
         // Creating a croper object with the cropping view image
         // The new Cropper() method will do all the magic and diplay the cropping view and adding cropping functionality on the website
@@ -293,7 +285,7 @@
                 // Hide the crop button
                 document.getElementById('crop-btn').style.display = 'none'
                 // Display the Post button
-                document.getElementById('confirm-btn').style.display = 'block'
+                // document.getElementById('confirm-btn').style.display = 'block'
 
             });
         });

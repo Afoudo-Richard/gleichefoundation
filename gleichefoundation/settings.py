@@ -145,6 +145,12 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Media folder
+
+MEDIA_ROOT_FOLDER = 'static/images'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_ROOT_FOLDER)
+
 env = environ.Env()
 environ.Env.read_env()
 # Email configuration
