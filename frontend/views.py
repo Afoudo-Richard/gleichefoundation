@@ -9,6 +9,8 @@ from django.conf import settings
 
 from campay.sdk import Client
 
+from backend.models import *
+
 # Create your views here.
 
 
@@ -26,7 +28,19 @@ def about(request):
     return render(request, "frontend/about.html")
 
 def news_blog(request):
-    return render(request, "frontend/news.html")
+    news_blog = NewsBlog.objects.all().order_by('-date_created')
+    data = {
+        'news_blogs':news_blog
+    }
+    return render(request, "frontend/news.html", data)
+
+def read_news_blog(request, id):
+    news_blog = NewsBlog.objects.get(id=id)
+    data = {
+        'news_blog':news_blog
+    }
+    print(data)
+    return render(request, "frontend/read_new_blog.html", data)
 
 def upcoming_events(request):
     return render(request, "frontend/upcoming_event.html")
