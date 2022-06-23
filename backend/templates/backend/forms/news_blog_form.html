@@ -29,8 +29,8 @@
 
         <div class="w-full">
             <div class="md:w-10/12 lg:w-9/12 mx-auto sm:p-6">
-                <form action="{% url 'add_news_blog' %}" enctype="multipart/form-data" id="contact_form" x-ref="contact_form" x-data="contact_form"
-                    @submit.prevent="submit" method="POST">
+                <form action="{% url 'add_news_blog' %}" enctype="multipart/form-data" id="contact_form"
+                    x-ref="contact_form" x-data="contact_form" @submit.prevent="submit" method="POST">
                     {% csrf_token %}
                     <div class="w-full grid grid-cols-8 gap-4 p-4">
 
@@ -53,7 +53,9 @@
                             <div class="mt-1">
 
                                 <textarea id="basic-example" name="content">
-
+                                    {% autoescape off %}
+                                    {{form.content.value}}
+                                    {% endautoescape %}   
                                 </textarea>
 
 
@@ -65,16 +67,16 @@
                         </div>
 
                         <div class="col-span-8 ">
-                            <label for="about" class="block text-sm font-medium text-gray-700"> Gleiche Comment </label>
+                            <label for="user_comment" class="block text-sm font-medium text-gray-700"> Gleiche Comment </label>
                             <div class="mt-1">
-                                <textarea id="about" name="user_comment" rows="3"
+                                <textarea id="user_comment" name="user_comment" rows="3"
                                     class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                                     placeholder="Write your comment here"
                                     :class="{'border-red-600':fields.comment.isValid == false}"
                                     x-model="fields.comment.value" @blur="fields.comment.validate(validationCallback)"
                                     @input="fields.comment.validate(validationCallback)">
 
-
+                                {{form.user_comment.value}}
                                 </textarea>
                             </div>
                             <p class="text-red-500 text-xs italic py-2" x-show="fields.comment.isValid == false">
@@ -159,7 +161,7 @@
         Alpine.data('contact_form', () => ({
             fields: {
                 title: {
-                    value: '',
+                    value: '{{form.title.value}}',
                     rules: ["required"],
                     isValid: null,
                     errorMsg: null,
@@ -180,9 +182,9 @@
                 //         this.errorMsg = errorMsg;
                 //     },
                 // },
-                
+
                 comment: {
-                    value: '',
+                    value: '{{form.comment.value}}',
                     rules: ["required"],
                     isValid: null,
                     errorMsg: null,

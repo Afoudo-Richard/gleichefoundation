@@ -4,4 +4,5 @@ from .models import *
 class NewsBlogForm(forms.ModelForm):
 	class Meta:
 		model = NewsBlog
-		fields = ['title', 'content', 'image']
+		fields = '__all__'
+

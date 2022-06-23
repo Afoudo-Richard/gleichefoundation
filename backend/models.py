@@ -8,6 +8,7 @@ class NewsBlog(models.Model):
     content = models.TextField()
     image = models.ImageField(upload_to="NewBlogThumbnail")
     publish = models.BooleanField(default=False)
+    allow_public_comments = models.BooleanField(default=False)
     user_comment = models.TextField(null=True)
     date_created = models.DateTimeField(auto_now_add=True)
 

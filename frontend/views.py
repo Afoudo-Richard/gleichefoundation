@@ -15,11 +15,13 @@ from backend.models import *
 
 
 def index(request):
-    context = {
-        
-        'password': settings.EMAIL_HOST_PASSWORD,
+    news_blog = NewsBlog.objects.filter(publish=1).order_by('-date_created')[:3]
+
+    data = {
+        'news_blogs':news_blog
     }
-    return render(request, "frontend/index.html", context)
+
+    return render(request, "frontend/index.html", data)
 
 def donate(request):
     return render(request, "frontend/donate.html")
@@ -28,7 +30,7 @@ def about(request):
     return render(request, "frontend/about.html")
 
 def news_blog(request):
-    news_blog = NewsBlog.objects.all().order_by('-date_created')
+    news_blog = NewsBlog.objects.filter(publish=1).order_by('-date_created')
     data = {
         'news_blogs':news_blog
     }
@@ -39,7 +41,6 @@ def read_news_blog(request, id):
     data = {
         'news_blog':news_blog
     }
-    print(data)
     return render(request, "frontend/read_new_blog.html", data)
 
 def upcoming_events(request):

@@ -45,11 +45,41 @@
     </title>
 </head>
 
+<style>
+
+.m-scroll {
+  /* overflow: hidden;
+  height: 100%;
+  white-space: nowrap;
+  
+  margin: 0;
+  font-size: 0;
+  display: inline-block; */
+  animation: scrollText 30s infinite linear;
+}
+
+.m-scroll:hover{
+    animation-play-state: paused;
+}
+
+
+
+@keyframes scrollText {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+</style>
+
 <body class="font-Poppins">
     {% include 'frontend/includes/header.html' %}
     {% block content %}
 
     {% endblock %}
+    {% include 'frontend/includes/quotes_banner.html' %}
     {% include 'frontend/includes/footer.html' %}
 </body>
 
