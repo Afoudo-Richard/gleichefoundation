@@ -90,7 +90,7 @@
 
                             <div class="form-group">
                                 <div id="image-box" class="image-container"></div>
-                                <button class="btn btn-outline-info" id="crop-btn"
+                                <button class=" px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm"  id="crop-btn"
                                     style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
                             </div>
 
@@ -99,7 +99,7 @@
                     </div>
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-center">
                         <button type="submit"
-                            class="inline-block px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm">Submit</button>
+                            class="inline-block px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm" id="confirm-btn">Submit</button>
                     </div>
                 </form>
             </div>
@@ -184,8 +184,8 @@
                 // },
 
                 comment: {
-                    value: '{{form.comment.value}}',
-                    rules: ["required"],
+                    value: '{{form.user_comment.value}}',
+                    rules: ['optional'],
                     isValid: null,
                     errorMsg: null,
                     validate(callback) {
@@ -250,8 +250,9 @@
         document.getElementById('image-box').style.display = 'block'
         // Displaying the Crop buttton
         document.getElementById('crop-btn').style.display = 'block'
+        //document.getElementById('crop-btn').classList.toggle('inline-block')
         // Hiding the Post button
-        // document.getElementById('confirm-btn').style.display = 'none'
+        document.getElementById('confirm-btn').classList.toggle('hidden')
 
         // Creating a croper object with the cropping view image
         // The new Cropper() method will do all the magic and diplay the cropping view and adding cropping functionality on the website
@@ -260,7 +261,7 @@
             aspectRatio: 16 / 9,
             viewMode: 1,
             scalable: false,
-            zoomable: false,
+            zoomable: true,
             movable: false,
             minCropBoxWidth: 200,
             minCropBoxHeight: 200,
@@ -287,7 +288,7 @@
                 // Hide the crop button
                 document.getElementById('crop-btn').style.display = 'none'
                 // Display the Post button
-                // document.getElementById('confirm-btn').style.display = 'block'
+                document.getElementById('confirm-btn').classList.remove('hidden')
 
             });
         });

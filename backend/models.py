@@ -6,7 +6,7 @@ from django.db import models
 class NewsBlog(models.Model):
     title = models.CharField(max_length=200, null=False)
     content = models.TextField()
-    image = models.ImageField(upload_to="NewBlogThumbnail")
+    image = models.ImageField(upload_to="NewBlogThumbnail",null=True)
     publish = models.BooleanField(default=False)
     allow_public_comments = models.BooleanField(default=False)
     user_comment = models.TextField(null=True)
@@ -14,6 +14,10 @@ class NewsBlog(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    class Meta:
+        verbose_name = 'news_blog'
+        verbose_name_plural = 'news_blogs'
 
 class UpcomingEvent(models.Model):
     title = models.CharField(max_length=200, null=False)
