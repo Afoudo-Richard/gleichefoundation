@@ -6,7 +6,6 @@
                 <div class="w-24 h-1 bg-primary rounded-md"></div>
             </div>
 
-
         </div>
 
         <div class="w-full">
@@ -86,6 +85,13 @@
                         <button type="submit"
                             class="inline-block px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm">Submit</button>
                     </div>
+                    <div :class="{'flex': isSuccess, 'hidden': isSuccessResponse === null}"
+                        class="px-4 py-3 text-right sm:px-6 justify-center">
+                        <div :class="{'bg-green-400': isSuccessResponse, 'bg-red-400': isSuccessResponse == false}"
+                            class="p-3 rounded-md">
+                            <span x-text="formMessage"></span>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -153,29 +159,34 @@
 
             },
             isFormValid: true,
-            formMessage : "asdf asd fa",
+            formMessage: "",
+            isSuccessResponse: null,
             isLoading: false,
             validationCallback(field) {
                 let { value, rules } = field;
-                let isValid = Iodine.isValid(value, rules);
-                let errorMsg = isValid
-                    ? null
-                    : Iodine.getErrorMessage(Iodine.is(value, rules));
+                let results = Iodine.assert(value, rules);
+                let { valid, error, rule } = results;
+                let isValid = valid
+                let errorMsg = error
                 return { isValid, errorMsg };
+            },
+            get isSuccess() {
+                if (this.isSuccessResponse || this.isSuccessResponse === false) {
+                    return true
+                }
             },
             submit() {
                 this.isFormValid = !Object.values(this.fields).some(
                     (field) => !field.isValid
                 );
 
-                if (!this.isFormValid) {
+                if (this.isFormValid === false) {
                     !Object.values(this.fields).forEach(field => {
                         field.validate(this.validationCallback)
                     });
                 } else {
-                    // this.$refs.mobile_money_donate_form.submit()
 
-
+                    
                     const FORM_URL = "{% url 'contact_gleiche' %}";
 
                     formData = {
@@ -198,25 +209,54 @@
                         },
                         body: JSON.stringify(formData),
                     })
-                        .then(() => {
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw "Error loading the data"
+                            } else {
 
-                            setTimeout(function () {
+                                this.isSuccessResponse = true;
                                 this.formMessage = "Message sent successfully"
+
+
+
+                                this.fields.fullname.value = "";
+                                this.fields.email.value = "";
+                                this.fields.subject.value = "";
+                                this.fields.message.value = "";
+
+                                !Object.values(this.fields).forEach(field => {
+                                    field.value = "";
+                                    field.isValid = null;
+                                    field.errorMsg = null;
+                                });
+                                this.formMessage = "Form successfully submitted.";
+
+                            }
+
+                            this.isLoading = false;
+                            this.isFormValid = false;
+
+                            let self = this
+                            setTimeout(function () {
+                                self.isSuccessResponse = null;
+                                console.log("done printing")
                             }, 5000);
-                            
 
-                            this.fields.fullname.value = "";
-                            this.fields.email.value = "";
-                            this.fields.subject.value = "";
-                            this.fields.message.value = "";
-                            this.formMessage = "Form successfully submitted.";
-
-                            this.isLoading = false
                         })
                         .catch(() => {
-                            this.isLoading = false
-                            this.formMessage = "Something went wrong.";
+                            this.isLoading = false;
+                            this.isFormValid = false;
+                            this.isSuccessResponse = false;
+                            this.formMessage = "Something went wrong while trying to submit your data.";
+
+                            let self = this
+                            setTimeout(function () {
+                                self.isSuccessResponse = null;
+                                console.log("done printing")
+                            }, 5000);
                         });
+
+
                 }
 
             }

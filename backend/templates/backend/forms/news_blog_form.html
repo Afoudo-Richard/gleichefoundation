@@ -3,6 +3,8 @@
 {% block header %}
 <!-- Iodine js for form validation -->
 <script src="https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.js" defer></script>
+
+<!-- TinyMCE for WYSIWYG -->
 <script src="https://cdn.tiny.cloud/1/d4yumsjfq9wmx775lmlaitd41csmmwmjf8nj4n4yf6dw8ul2/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
 
@@ -61,9 +63,9 @@
 
 
                             </div>
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.content.isValid == false">
+                            <!-- <p class="text-red-500 text-xs italic py-2" x-show="fields.content.isValid == false">
                                 <span x-text="fields.content.errorMsg"></span>
-                            </p>
+                            </p> -->
                         </div>
 
                         <div class="col-span-8 ">
@@ -86,7 +88,7 @@
 
                         <div class="col-span-8">
                             <label for="id_image">Image</label><br>
-                            <input type="file" id="id_image" name="image" accept="image/*"><br>
+                            <input type="file" id="id_image" name="image" accept="image/*" x-ref="image"><br>
 
                             <div class="form-group">
                                 <div id="image-box" class="image-container"></div>
@@ -94,6 +96,9 @@
                                     style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
                             </div>
 
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.image.isValid == false">
+                                <span x-text="fields.image.errorMsg"></span>
+                            </p>
                         </div>
 
                     </div>
@@ -194,28 +199,43 @@
                         this.errorMsg = errorMsg;
                     },
                 },
+                image: {
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        const input = document.getElementById('id_image')
+                        if(input.files.length>0){
+                            this.isValid = true;
+                            this.errorMsg = "";
+                        }else{
+                            this.isValid = false;
+                            this.errorMsg = "Please insert an image";
+                        }
+                        
+                    },
+                },
 
             },
             isFormValid: true,
             validationCallback(field) {
                 let { value, rules } = field;
-                let isValid = Iodine.isValid(value, rules);
-                let errorMsg = isValid
-                    ? null
-                    : Iodine.getErrorMessage(Iodine.is(value, rules));
+                let results = Iodine.assert(value, rules);
+                let { valid, error, rule } = results;
+                let isValid = valid
+                let errorMsg = error
                 return { isValid, errorMsg };
             },
             submit() {
                 this.isFormValid = !Object.values(this.fields).some(
                     (field) => !field.isValid
                 );
-
-                if (!this.isFormValid) {
+                if (this.isFormValid === false) {
                     !Object.values(this.fields).forEach(field => {
                         field.validate(this.validationCallback)
                     });
                 } else {
                     this.$refs.contact_form.submit()
+
                 }
 
             }

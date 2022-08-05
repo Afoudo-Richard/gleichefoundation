@@ -21,32 +21,36 @@ def news_blog(request):
 
 
 def add_news_blog(request):
-    context = {}
-    if request.method == "POST":
-        print(request.POST)
+    if request.method == 'POST':
         form = NewsBlogForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            context = {
-                'form': form
-            }
             return redirect('system_news_blog')
-        print(form.errors)
+        
+    else:
+        form = NewsBlogForm()
+
+    context = {
+        'form': form,
+    }
+    
     return render(request, 'backend/forms/news_blog_form.html', context)
 
 
 def update_news_blog(request, id):
     news_blog = NewsBlog.objects.get(id=id)
-    form = NewsBlogForm(instance=news_blog)
-    context = {
-        'form': form
-    }
-    if request.method == "POST":
-        print(request.POST)
-        form = NewsBlogForm(request.POST, request.FILES, instance=news_blog)
+    if request.method == 'POST':
+        form = NewsBlogForm(request.POST,request.FILES, instance=news_blog)
         if form.is_valid():
             form.save()
             return redirect('system_news_blog')
+        
+    else:
+        form = NewsBlogForm(instance=news_blog)
+        
+    context = {
+        'form': form,
+    }
     return render(request, 'backend/forms/news_blog_form.html', context)
 
 
