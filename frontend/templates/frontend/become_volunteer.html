@@ -2,6 +2,12 @@
 {% extends 'frontend/main.html' %}
 {% load static %}
 
+{% block header %}
+<!-- Iodine js for form validation -->
+<script src="https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.js" defer></script>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="container py-6 md:py-12 flex flex-col gap-4">
@@ -10,32 +16,37 @@
         <div class="w-24 h-1 bg-primary rounded-md"></div>
     </div>
     <div class="py-12">
-        <!-- {{ forloop.counter }} -->
         
         <div class="w-full">
-            <div class="md:w-10/12 lg:w-9/12 mx-auto sm:p-6">
-                <form action="{% url 'contact_gleiche' %}" id="contact_form" x-ref="contact_form" x-data="contact_form"
+
+
+            <div class="relative md:w-10/12 lg:w-9/12 mx-auto sm:p-6" x-data="become_volunteer_form">
+                <div class="absolute inset-0 bg-primary/50 w-full h-full z-20 flex flex-col justify-center items-center"
+                    :class="{'hidden': isLoading ==false}">
+                    <div x-text="formMessage"></div>
+                    <spa class="text-secondary text-2xl">Sending ...</span>
+                </div>
+                <form action="{% url 'contact_gleiche' %}" id="become_volunteer_form" x-ref="become_volunteer_form"
                     @submit.prevent="submit" method="POST">
                     {% csrf_token %}
                     <div class="w-full grid grid-cols-8 gap-4 p-4">
                         <div class="col-span-8 md:col-span-4">
-                            <label for="first-name" class="block text-sm font-medium text-gray-700">Full Name</label>
                             <input type="text" name="fullname" id="first-name" autocomplete="given-name"
                                 class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                :class="{'border-red-600':fields.firstname.isValid == false}"
-                                x-model="fields.firstname.value" @blur="fields.firstname.validate(validationCallback)"
-                                @input="fields.firstname.validate(validationCallback)">
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.firstname.isValid == false">
-                                <span x-text="fields.firstname.errorMsg"></span>
+                                :class="{'border-red-600':fields.fullname.isValid == false}"
+                                placeholder="Full Name"
+                                x-model="fields.fullname.value" @blur="fields.fullname.validate(validationCallback)"
+                                @input="fields.fullname.validate(validationCallback)">
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.fullname.isValid == false">
+                                <span x-text="fields.fullname.errorMsg"></span>
                             </p>
                         </div>
 
                         <div class="col-span-8 md:col-span-4">
-                            <label for="first-name" class="block text-sm font-medium text-gray-700">Email
-                            </label>
-                            <input type="text" name="first-name" id="first-name" name="email"
+                            <input type="text" id="first-name" name="email"
                                 class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 :class="{'border-red-600':fields.email.isValid == false}" id="email"
+                                placeholder="Email"
                                 x-model="fields.email.value" @blur="fields.email.validate(validationCallback)"
                                 @input="fields.email.validate(validationCallback)">
 
@@ -45,34 +56,162 @@
                         </div>
 
                         <div class="col-span-8">
-                            <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
-                            <input type="text" name="subject" id="subject" autocomplete="family-name"
-                                class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                :class="{'border-red-600':fields.subject.isValid == false}"
-                                x-model="fields.subject.value" @blur="fields.subject.validate(validationCallback)"
-                                @input="fields.subject.validate(validationCallback)">
+                            <div class="mt-1">
+                                <label for="user_comment" class="block text-sm font-medium text-gray-700"> Sex </label>
 
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.subject.isValid == false">
-                                <span x-text="fields.subject.errorMsg"></span>
+                                <input type="radio" name="sex" id="male" value="male">
+                                <label for="male">Male</label>
+                                <br>
+                                <input type="radio" name="sex" id="female" value="male">
+                                <label for="female">Female</label>
+                            </div>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.message.isValid == false">
+                                <span x-text="fields.message.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8 md:col-span-4">
+                            <input type="text" name="phone" id="first-name" autocomplete="given-name"
+                                class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                :class="{'border-red-600':fields.fullname.isValid == false}"
+                                placeholder="Phone e.g +237672345670"
+                                x-model="fields.phone.value" @blur="fields.phone.validate(validationCallback)"
+                                @input="fields.phone.validate(validationCallback)">
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.phone.isValid == false">
+                                <span x-text="fields.phone.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8 md:col-span-4">
+                            <input type="text" name="address" id="first-name"
+                                class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                :class="{'border-red-600':fields.address.isValid == false}" id="address"
+                                placeholder="Address"
+                                x-model="fields.address.value" @blur="fields.address.validate(validationCallback)"
+                                @input="fields.address.validate(validationCallback)">
+
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.address.isValid == false">
+                                <span x-text="fields.address.errorMsg"></span>
                             </p>
                         </div>
 
 
-                        <div class="col-span-8 ">
-                            <label for="about" class="block text-sm font-medium text-gray-700"> Message </label>
+                        <div class="col-span-8">
                             <div class="mt-1">
                                 <textarea id="about" name="about" rows="3"
                                     class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                                    placeholder="Write your message here"
-                                    :class="{'border-red-600':fields.message.isValid == false}"
-                                    x-model="fields.message.value" @blur="fields.message.validate(validationCallback)"
-                                    @input="fields.message.validate(validationCallback)">
+                                    placeholder="How did you learn about our foundation ?"
+                                    :class="{'border-red-600':fields.about_gleiche.isValid == false}"
+                                    x-model="fields.about_gleiche.value" @blur="fields.about_gleiche.validate(validationCallback)"
+                                    @input="fields.about_gleiche.validate(validationCallback)">
 
 
                             </textarea>
                             </div>
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.message.isValid == false">
-                                <span x-text="fields.message.errorMsg"></span>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.about_gleiche.isValid == false">
+                                <span x-text="fields.about_gleiche.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <div class="mt-1">
+                                <textarea id="about" name="about" rows="3"
+                                    class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="What interest you about our foundation ?"
+                                    :class="{'border-red-600':fields.interest_about_gleiche.isValid == false}"
+                                    x-model="fields.interest_about_gleiche.value" @blur="fields.interest_about_gleiche.validate(validationCallback)"
+                                    @input="fields.interest_about_gleiche.validate(validationCallback)">
+
+
+                            </textarea>
+                            </div>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.interest_about_gleiche.isValid == false">
+                                <span x-text="fields.interest_about_gleiche.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <div class="mt-1">
+                                <textarea id="about" name="about" rows="3"
+                                    class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="How do you think you can help Gleiche Foundation grow ?"
+                                    :class="{'border-red-600':fields.help_gleiche.isValid == false}"
+                                    x-model="fields.help_gleiche.value" @blur="fields.help_gleiche.validate(validationCallback)"
+                                    @input="fields.help_gleiche.validate(validationCallback)">
+
+
+                            </textarea>
+                            </div>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.help_gleiche.isValid == false">
+                                <span x-text="fields.help_gleiche.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <div class="mt-1">
+                                <textarea id="about" name="about" rows="3"
+                                    class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="How do you think you can impact the lives of the needy and underprivileged ?"
+                                    :class="{'border-red-600':fields.impact_gleiche.isValid == false}"
+                                    x-model="fields.impact_gleiche.value" @blur="fields.impact_gleiche.validate(validationCallback)"
+                                    @input="fields.impact_gleiche.validate(validationCallback)">
+
+
+                            </textarea>
+                            </div>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.impact_gleiche.isValid == false">
+                                <span x-text="fields.impact_gleiche.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <div class="mt-1">
+                                <textarea id="about" name="about" rows="3"
+                                    class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="Do you have any skills that you think might be particularly userful to the foundation? (if yes, state it) ?"
+                                    :class="{'border-red-600':fields.particular_skill.isValid == false}"
+                                    x-model="fields.particular_skill.value" @blur="fields.particular_skill.validate(validationCallback)"
+                                    @input="fields.particular_skill.validate(validationCallback)">
+
+
+                            </textarea>
+                            </div>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.particular_skill.isValid == false">
+                                <span x-text="fields.particular_skill.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <div class="mt-1">
+                                <textarea id="about" name="about" rows="3"
+                                    class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="Anything else we should know about you ?"
+                                    :class="{'border-red-600':fields.anything_else.isValid == false}"
+                                    x-model="fields.anything_else.value" @blur="fields.anything_else.validate(validationCallback)"
+                                    @input="fields.anything_else.validate(validationCallback)">
+
+
+                            </textarea>
+                            </div>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.anything_else.isValid == false">
+                                <span x-text="fields.anything_else.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <div class="mt-1">
+                                <textarea id="about" name="about" rows="3"
+                                    class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="Give a brief autobiography about yourself"
+                                    :class="{'border-red-600':fields.autobiography.isValid == false}"
+                                    x-model="fields.autobiography.value" @blur="fields.autobiography.validate(validationCallback)"
+                                    @input="fields.autobiography.validate(validationCallback)">
+
+
+                            </textarea>
+                            </div>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.autobiography.isValid == false">
+                                <span x-text="fields.autobiography.errorMsg"></span>
                             </p>
                         </div>
 
@@ -80,7 +219,14 @@
                     </div>
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-center">
                         <button type="submit"
-                            class="inline-block px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm">Submit</button>
+                            class="inline-block px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm">Apply</button>
+                    </div>
+                    <div :class="{'flex': isSuccess, 'hidden': isSuccessResponse === null}"
+                        class="px-4 py-3 text-right sm:px-6 justify-center">
+                        <div :class="{'bg-green-400': isSuccessResponse, 'bg-red-400': isSuccessResponse == false}"
+                            class="p-3 rounded-md">
+                            <span x-text="formMessage"></span>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -94,20 +240,9 @@
 
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('contact_form', () => ({
+        Alpine.data('become_volunteer_form', () => ({
             fields: {
-                firstname: {
-                    value: '',
-                    rules: ["required"],
-                    isValid: null,
-                    errorMsg: null,
-                    validate(callback) {
-                        let { isValid, errorMsg } = callback(this);
-                        this.isValid = isValid;
-                        this.errorMsg = errorMsg;
-                    },
-                },
-                subject: {
+                fullname: {
                     value: '',
                     rules: ["required"],
                     isValid: null,
@@ -129,7 +264,30 @@
                         this.errorMsg = errorMsg;
                     },
                 },
-                message: {
+
+                phone: {
+                    value: '',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+                address: {
+                    value: '',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+                about_gleiche: {
                     value: '',
                     rules: ["required"],
                     isValid: null,
@@ -141,27 +299,186 @@
                     },
                 },
 
+                interest_about_gleiche: {
+                    value: '',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+
+                help_gleiche: {
+                    value: '',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+
+                impact_gleiche: {
+                    value: '',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+
+                particular_skill: {
+                    value: '',
+                    rules: ["optional"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+
+                anything_else: {
+                    value: '',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+
+                autobiography: {
+                    value: '',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+
+
             },
             isFormValid: true,
+            formMessage: "",
+            isSuccessResponse: null,
+            isLoading: false,
             validationCallback(field) {
                 let { value, rules } = field;
-                let isValid = Iodine.isValid(value, rules);
-                let errorMsg = isValid
-                    ? null
-                    : Iodine.getErrorMessage(Iodine.is(value, rules));
+                let results = Iodine.assert(value, rules);
+                let { valid, error, rule } = results;
+                let isValid = valid
+                let errorMsg = error
                 return { isValid, errorMsg };
+            },
+            get isSuccess() {
+                if (this.isSuccessResponse || this.isSuccessResponse === false) {
+                    return true
+                }
             },
             submit() {
                 this.isFormValid = !Object.values(this.fields).some(
                     (field) => !field.isValid
                 );
 
-                if (!this.isFormValid) {
+                if (this.isFormValid === false) {
                     !Object.values(this.fields).forEach(field => {
                         field.validate(this.validationCallback)
                     });
                 } else {
-                    this.$refs.contact_form.submit()
+
+                    
+                    const FORM_URL = "{% url 'contact_gleiche' %}";
+
+                    formData = {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        fullname: this.fields.fullname.value,
+                        email: this.fields.email.value,
+                        phone: this.fields.phone.value,
+                        address : this.fields.address.value,
+                        about_gleiche: this.fields.about_gleiche.value,
+                        interest_about_gleiche: this.fields.interest_about_gleiche.value,
+                        help_gleiche: this.fields.help_gleiche.value,
+                        impact_gleiche: this.fields.impact_gleiche.value,
+                        particular_skill: this.fields.particular_skill.value,
+                        anything_else: this.fields.anything_else.value,
+                        autobiography: this.fields.autobiography.value,
+                    }
+
+                    this.formMessage = "";
+                    this.isLoading = true;
+                    fetch(FORM_URL, {
+                        method: "POST",
+                        credentials: 'same-origin',
+                        headers: {
+                            "Content-Type": "application/json",
+                            Accept: "application/json",
+                            "X-CSRFToken": '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify(formData),
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw "Error loading the data"
+                            } else {
+
+                                this.isSuccessResponse = true;
+                                this.formMessage = "Message sent successfully"
+
+
+
+                                this.fields.fullname.value = "";
+                                this.fields.email.value = "";
+                                this.fields.subject.value = "";
+                                this.fields.message.value = "";
+
+                                !Object.values(this.fields).forEach(field => {
+                                    field.value = "";
+                                    field.isValid = null;
+                                    field.errorMsg = null;
+                                });
+                                this.formMessage = "Form successfully submitted.";
+
+                            }
+
+                            this.isLoading = false;
+                            this.isFormValid = false;
+
+                            let self = this
+                            setTimeout(function () {
+                                self.isSuccessResponse = null;
+                                console.log("done printing")
+                            }, 5000);
+
+                        })
+                        .catch(() => {
+                            this.isLoading = false;
+                            this.isFormValid = false;
+                            this.isSuccessResponse = false;
+                            this.formMessage = "Something went wrong while trying to submit your data.";
+
+                            let self = this
+                            setTimeout(function () {
+                                self.isSuccessResponse = null;
+                                console.log("done printing")
+                            }, 5000);
+                        });
+
+
                 }
 
             }
