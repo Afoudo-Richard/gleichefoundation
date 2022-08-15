@@ -6,3 +6,8 @@ class NewsBlogForm(forms.ModelForm):
 		model = NewsBlog
 		fields = '__all__'
 
+class TestimonialForm(forms.ModelForm):
+	class Meta:
+		model = Testimonial
+		fields = '__all__'
+

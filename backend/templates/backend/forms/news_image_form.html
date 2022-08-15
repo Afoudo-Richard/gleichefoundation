@@ -1,0 +1,216 @@
+{% extends 'backend/main.html' %}
+
+{% block header %}
+<!-- Iodine js for form validation -->
+<script src="https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.js" defer></script>
+
+
+<!-- cropper js -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+{% endblock %}
+
+{% block main %}
+
+
+<div class="flex justify-between">
+    {% include 'backend/includes/page_header.html' with title='Add News&Blog Image' %}
+
+    <div>
+        {% url 'dashboard' as action_url %}
+        {% include 'backend/components/link_button.html' with text="Back" link=action_url %}
+    </div>
+</div>
+
+<div class=" mt-5">
+    <div class="flex flex-col justify-center items-center ">
+
+        <div class="w-full">
+            <div class="md:w-10/12 lg:w-9/12 mx-auto sm:p-6">
+                <div class="w-full p-4 ">
+                    <div class="w-24 mr-2">
+                        <img class="rounded-lg w-full" src="/static/images/default_news_image.jpg" alt="">
+                    </div>
+                    
+                </div>
+
+                <p>The above default image will be set if no image is provided.</p>
+                <form action="" enctype="multipart/form-data" id="contact_form"
+                    x-ref="contact_form" x-data="contact_form"  method="POST">
+                    {% csrf_token %}
+                    <div class="w-full grid grid-cols-8 gap-4 p-4">
+
+                        <input type="hidden" name="title" value="{{form.title.value}}">
+                        <input type="hidden" name="content" value="{{form.content.value}}">
+                        <input type="hidden" name="user_comment" value="{{form.user_comment.value}}">
+
+
+
+                        <div class="col-span-8">
+                            <label for="id_image">Image</label><br>
+                            <input type="file" id="id_image" name="image" accept="image/*" x-ref="image"><br>
+
+                            <div class="form-group">
+                                <div id="image-box" class="image-container"></div>
+                                <button class=" px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm"  id="crop-btn"
+                                    style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
+                            </div>
+
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.image.isValid == false">
+                                <span x-text="fields.image.errorMsg"></span>
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-center">
+                        <button type="submit"
+                            class="inline-block px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm" id="confirm-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="hidden sm:block" aria-hidden="true">
+            <div class="py-5">
+                <div class="border-t border-gray-200">
+                    {{form.errors}}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+
+
+{% endblock %}
+
+{% block jsScripts %}
+<script>
+
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('contact_form', () => ({
+            // fields: {
+
+            //     image: {
+            //         isValid: null,
+            //         errorMsg: null,
+            //         validate(callback) {
+            //             const input = document.getElementById('id_image')
+            //             if(input.files.length>0){
+            //                 this.isValid = true;
+            //                 this.errorMsg = "";
+            //             }else{
+            //                 this.isValid = false;
+            //                 this.errorMsg = "Please insert an image";
+            //             }
+                        
+            //         },
+            //     },
+
+            // },
+            // isFormValid: true,
+            // validationCallback(field) {
+            //     let { value, rules } = field;
+            //     let results = Iodine.assert(value, rules);
+            //     let { valid, error, rule } = results;
+            //     let isValid = valid
+            //     let errorMsg = error
+            //     return { isValid, errorMsg };
+            // },
+            // submit() {
+            //     this.isFormValid = !Object.values(this.fields).some(
+            //         (field) => !field.isValid
+            //     );
+            //     if (this.isFormValid === false) {
+            //         !Object.values(this.fields).forEach(field => {
+            //             field.validate(this.validationCallback)
+            //         });
+            //     } else {
+            //         this.$refs.contact_form.submit()
+
+            //     }
+
+            // }
+        }))
+    })
+</script>
+
+
+<script>
+    // image-box is the id of the div element that will store our cropping image preview
+    const imagebox = document.getElementById('image-box')
+    // crop-btn is the id of button that will trigger the event of change original file with cropped file.
+    const crop_btn = document.getElementById('crop-btn')
+    // id_image is the id of the input tag where we will upload the image
+    const input = document.getElementById('id_image')
+
+    // When user uploads the image this event will get triggered
+    input.addEventListener('change', () => {
+        // Getting image file object from the input variable
+        const img_data = input.files[0]
+        // createObjectURL() static method creates a DOMString containing a URL representing the object given in the parameter.
+        // The new object URL represents the specified File object or Blob object.
+        const url = URL.createObjectURL(img_data)
+
+        // Creating a image tag inside imagebox which will hold the cropping view image(uploaded file) to it using the url created before.
+        imagebox.innerHTML = `<img src="${url}" id="image" style="width:100%;">`
+
+        // Storing that cropping view image in a variable
+        const image = document.getElementById('image')
+
+        // Displaying the image box
+        document.getElementById('image-box').style.display = 'block'
+        // Displaying the Crop buttton
+        document.getElementById('crop-btn').style.display = 'block'
+        //document.getElementById('crop-btn').classList.toggle('inline-block')
+        // Hiding the Post button
+        document.getElementById('confirm-btn').classList.toggle('hidden')
+
+        // Creating a croper object with the cropping view image
+        // The new Cropper() method will do all the magic and diplay the cropping view and adding cropping functionality on the website
+        // For more settings, check out their official documentation at https://github.com/fengyuanchen/cropperjs
+        const cropper = new Cropper(image, {
+            aspectRatio: 16 / 9,
+            viewMode: 1,
+            scalable: false,
+            zoomable: true,
+            movable: false,
+            minCropBoxWidth: 200,
+            minCropBoxHeight: 200,
+        })
+
+        // When crop button is clicked this event will get triggered
+        crop_btn.addEventListener('click', () => {
+            // This method coverts the selected cropped image on the cropper canvas into a blob object
+            cropper.getCroppedCanvas().toBlob((blob) => {
+
+                // Gets the original image data
+                let fileInputElement = document.getElementById('id_image');
+                // Make a new cropped image file using that blob object, image_data.name will make the new file name same as original image
+                let file = new File([blob], img_data.name, { type: "image/*", lastModified: new Date().getTime() });
+                // Create a new container
+                let container = new DataTransfer();
+                // Add the cropped image file to the container
+                container.items.add(file);
+                // Replace the original image file with the new cropped image file
+                fileInputElement.files = container.files;
+
+                // Hide the cropper box
+                document.getElementById('image-box').style.display = 'none'
+                // Hide the crop button
+                document.getElementById('crop-btn').style.display = 'none'
+                // Display the Post button
+                document.getElementById('confirm-btn').classList.remove('hidden')
+
+            });
+        });
+    });	
+</script>
+{% endblock %}

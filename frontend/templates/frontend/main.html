@@ -79,6 +79,13 @@
     {% block content %}
 
     {% endblock %}
+    <div class="fixed z-40 bottom-14 right-5 flex-col">
+      <a href="https://api.whatsapp.com/send?phone=+237672367020&text=Hi,I would like to get more information..." target="_blank">
+        <div class="w-14">
+          <img src="{% static 'assets/whatsapp_logo.png' %}" alt="whatsapp us">
+        </div>
+      </a>
+    </div>
     {% include 'frontend/includes/quotes_banner.html' %}
     {% include 'frontend/includes/footer.html' %}
 </body>

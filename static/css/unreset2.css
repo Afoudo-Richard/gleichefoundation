@@ -1,0 +1,48 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+.reset-this html, .reset-this body, .reset-this div, .reset-this span, .reset-this applet, .reset-this object, .reset-this iframe,
+.reset-this h1, .reset-this h2, .reset-this h3, h4, .reset-this h5, .reset-this h6, .reset-this .reset-this p, .reset-this blockquote, .reset-this pre,
+.reset-this a, .reset-this abbr, .reset-this acronym, .reset-this address, .reset-this big, .reset-this cite, .reset-this code,
+.reset-this del, .reset-this dfn, .reset-this em, .reset-this img, .reset-this ins, .reset-this kbd, .reset-this q, .reset-this s, .reset-this samp,
+.reset-this small, .reset-this strike, .reset-this strong, .reset-this sub, .reset-this sup, .reset-this tt, .reset-this var,
+.reset-this b, .reset-this u, .reset-this i, .reset-this center,
+.reset-this dl, .reset-this dt, .reset-this dd, .reset-this ol, .reset-this ul, .reset-this li,
+.reset-this fieldset, .reset-this form, .reset-this label, .reset-this legend,
+.reset-this table, .reset-this caption, .reset-this tbody, .reset-this tfoot, .reset-this thead, .reset-this tr, .reset-this th, .reset-this td,
+.reset-this article, .reset-this aside, .reset-this canvas, .reset-this details, .reset-this embed, 
+.reset-this figure, .reset-this figcaption, .reset-this footer, .reset-this header, .reset-this hgroup, 
+.reset-this menu, .reset-this nav, .reset-this output, .reset-this ruby, .reset-this section, .reset-this summary,
+.reset-this time, .reset-this mark, .reset-this audio, .reset-this video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+.reset-this article, .reset-this aside, .reset-this details, .reset-this figcaption, .reset-this figure, 
+.reset-this footer, .reset-this header, .reset-this hgroup, .reset-this menu, .reset-this nav, .reset-this section {
+	display: block;
+}
+.reset-this body {
+	line-height: 1;
+}
+.reset-this ol, .reset-this ul {
+	list-style: none;
+}
+.reset-this blockquote, .reset-this q {
+	quotes: none;
+}
+.reset-this blockquote:before, .reset-this blockquote:after,
+.reset-this q:before, .reset-this q:after {
+	content: '';
+	content: none;
+}
+.reset-this table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}

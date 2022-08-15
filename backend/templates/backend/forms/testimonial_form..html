@@ -18,7 +18,7 @@
 
 
 <div class="flex justify-between">
-    {% include 'backend/includes/page_header.html' with title='Add News&Blog' %}
+    {% include 'backend/includes/page_header.html' with fullname='Add Testimonial' %}
 
     <div>
         {% url 'dashboard' as action_url %}
@@ -38,51 +38,46 @@
 
                         <input type="hidden" name="next" value="true">
                         <div class="col-span-8">
-                            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-                            <input type="text" name="title" id="title" autocomplete="family-name"
+                            <label for="fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" name="fullname" id="fullname" autocomplete="family-name"
                                 class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                :class="{'border-red-600':fields.title.isValid == false}" x-model="fields.title.value"
-                                @blur="fields.title.validate(validationCallback)"
-                                @input="fields.title.validate(validationCallback)">
+                                :class="{'border-red-600':fields.fullname.isValid == false}" x-model="fields.fullname.value"
+                                @blur="fields.fullname.validate(validationCallback)"
+                                @input="fields.fullname.validate(validationCallback)">
 
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.title.isValid == false">
-                                <span x-text="fields.title.errorMsg"></span>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.fullname.isValid == false">
+                                <span x-text="fields.fullname.errorMsg"></span>
                             </p>
                         </div>
-                        <!-- TinyMCE -->
-                        <div class="col-span-8 ">
-                            <label for="about" class="block text-sm font-medium text-gray-700"> Content </label>
-                            <div class="mt-1">
 
-                                <textarea id="basic-example" name="content">
-                                    {% autoescape off %}
-                                    {% if form.content.value != None %} {{form.content.value}} {% endif %}
-                                    {% endautoescape %}   
-                                </textarea>
+                        <div class="col-span-8">
+                            <label for="occupation" class="block text-sm font-medium text-gray-700">Occupation</label>
+                            <input type="text" name="occupation" id="occupation" autocomplete="family-name"
+                                class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                :class="{'border-red-600':fields.occupation.isValid == false}" x-model="fields.occupation.value"
+                                @blur="fields.occupation.validate(validationCallback)"
+                                @input="fields.occupation.validate(validationCallback)">
 
-
-
-                            </div>
-                            <!-- <p class="text-red-500 text-xs italic py-2" x-show="fields.content.isValid == false">
-                                <span x-text="fields.content.errorMsg"></span>
-                            </p> -->
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.occupation.isValid == false">
+                                <span x-text="fields.occupation.errorMsg"></span>
+                            </p>
                         </div>
 
                         <div class="col-span-8 ">
-                            <label for="user_comment" class="block text-sm font-medium text-gray-700"> Gleiche Comment (optinal) </label>
+                            <label for="testimony" class="block text-sm font-medium text-gray-700"> Testimony </label>
                             <div class="mt-1">
-                                <textarea id="user_comment" name="user_comment" rows="3"
+                                <textarea id="testimony" name="testimony" rows="3"
                                     class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                                    placeholder="Write your comment here"
-                                    :class="{'border-red-600':fields.comment.isValid == false}"
-                                    x-model="fields.comment.value" @blur="fields.comment.validate(validationCallback)"
-                                    @input="fields.comment.validate(validationCallback)">
+                                    placeholder="Write your testimony here"
+                                    :class="{'border-red-600':fields.testimony.isValid == false}"
+                                    x-model="fields.testimony.value" @blur="fields.testimony.validate(validationCallback)"
+                                    @input="fields.testimony.validate(validationCallback)">
 
                                 
                                 </textarea>
                             </div>
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.comment.isValid == false">
-                                <span x-text="fields.comment.errorMsg"></span>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.testimony.isValid == false">
+                                <span x-text="fields.testimony.errorMsg"></span>
                             </p>
                         </div>
 
@@ -117,41 +112,12 @@
 {% block jsScripts %}
 <script>
 
-    // tinymce.init({
-    //     selector: '#editor',
-    //     toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-    //         'bullist numlist outdent indent | link image | print preview media fullpage | ' +
-    //         'forecolor backcolor emoticons | help',
-    //     plugins: [
-    //         'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-    //         'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-    //         'table emoticons template paste help'
-    //     ],
-    //     convert_urls: false
-    // });
-
-    // Tiny McE
-    tinymce.init({
-        selector: 'textarea#basic-example',
-        height: 500,
-        plugins: [
-            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-            'insertdatetime', 'media', 'table', 'editimage', 'wordcount'
-        ],
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist outdent indent | link image | print preview media fullpage | ' +
-            'forecolor backcolor emoticons | help',
-        menubar: 'file edit insert view format table tools help',
-        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-    });
-
 
     document.addEventListener('alpine:init', () => {
         Alpine.data('contact_form', () => ({
             fields: {
-                title: {
-                    value: '{% if form.title.value != None %} {{form.title.value}} {% endif %}',
+                fullname: {
+                    value: '{% if form.fullname.value != None %} {{form.fullname.value}} {% endif %}',
                     rules: ["required"],
                     isValid: null,
                     errorMsg: null,
@@ -162,8 +128,8 @@
                     },
                 },
 
-                comment: {
-                    value: '{% if form.user_comment.value != None %} {{form.user_comment.value}} {% endif %}',
+                testimony: {
+                    value: '{% if form.testimony.value != None %} {{form.testimony.value}} {% endif %}',
                     rules: ['optional'],
                     isValid: null,
                     errorMsg: null,

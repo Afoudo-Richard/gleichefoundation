@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.core.mail import send_mail,EmailMessage
 from django.conf import settings
+from django.core.paginator import Paginator
 
 from campay.sdk import Client
 
@@ -31,8 +32,12 @@ def about(request):
 
 def news_blog(request):
     news_blog = NewsBlog.objects.filter(publish=1).order_by('-date_created')
+    paginator = Paginator(news_blog, 3)
+    page_number = request.GET.get('page')
+    paged_news_objs = paginator.get_page(page_number)
+
     data = {
-        'news_blogs':news_blog
+        'news_blogs':paged_news_objs
     }
     return render(request, "frontend/news.html", data)
 

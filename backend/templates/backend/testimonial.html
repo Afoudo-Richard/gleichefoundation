@@ -8,7 +8,7 @@
 </div>
 
 <div class="flex justify-between">
-    {% include 'backend/includes/page_header.html' with title='News & Blog' %}
+    {% include 'backend/includes/page_header.html' with title='Testimonials' %}
 
     <div>
         {% url 'add_news_blog' as action_url %}
@@ -21,18 +21,17 @@
 
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Gleiche Comment</th>
-                <th>Allow Public Comment</th>
+                <th>Full Name</th>
+                <th>Occupation</th>
+                <th>Testimony</th>
                 <th>Date Created</th>
                 <th>Action</th>
-                <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
 
-            {% for item in news_blogs %}
+            {% for item in testimonials %}
 
 
             <tr>
@@ -44,40 +43,13 @@
                             </a>
                         </div>
                         <span class="text-center">
-                            {{item.title}}
+                            {{item.fullname}}
                         </span>
                     </div>
                 </td>
-                <td>
-                    {{item.user_comment}}
-
-
-
-                </td>
-                <td x-data="{
-                    change_allow_comment_status() {
-                        alert('Helloooooooooooooooooooooooo')
-                        
-        
-                    }
-                
-                }">
-                    {% if item.allow_public_comments == 0 %}
-                    <button
-                        class="inline-block px-4 py-1.5 bg-blue-500 hover:bg-blue-200 hover:shadow-2xl transition-all rounded-md text-white text-sm change_public_comment_status"
-                        data-news_id="{{item.id}}" data-allow_comment="{{item.allow_public_comments}}">Enable
-                    </button>
-
-                    {% else %}
-                    <button
-                        class="inline-block px-4 py-1.5 bg-red-700 hover:bg-red-200 hover:shadow-2xl transition-all rounded-md text-white text-sm change_public_comment_status"
-                        data-news_id="{{item.id}}" data-allow_comment="{{item.allow_public_comments}}">Disable
-                    </button>
-                    {% endif %}
-                </td>
-                <td>{{item.date_created}}
-
-                </td>
+                <td>{{item.occupation}}</td>
+                <td>{{item.testimony}}</td>
+                <td>{{item.date_created}}</td>
                 <td>
 
                     {% if item.publish == 0 %}
@@ -94,34 +66,9 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% include 'backend/components/link_button.html' with text="View" link=action_url %}
-
                     {% url 'update_news_blog' item.id as update_news_blog %}
                     {% include 'backend/components/link_button.html' with text="Edit" link=update_news_blog %}
-                </td>
-                <td>
-                    <div x-data="{ dropdownOpen: false }" class="relative">
-                        <button @click="dropdownOpen = ! dropdownOpen"
-                            class="relative block h-8 w-8 rounded-full overflow-hidden shadow focus:outline-none">
-                            <img class="h-full w-full object-cover"
-                                src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=296&amp;q=80"
-                                alt="Your avatar">
-                        </button>
-
-                        <div x-show="dropdownOpen" @click="dropdownOpen = false"
-                            class="fixed inset-0 h-full w-full z-10" style="display: none;"></div>
-
-                        <div x-show="dropdownOpen"
-                            class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
-                            style="display: none;">
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</a>
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Products</a>
-                            <a href=""
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Logout</a>
-                        </div>
-                    </div>
+                    {% include 'backend/components/link_button.html' with text="Delete" link=action_url %}
                 </td>
             </tr>
             {% endfor %}

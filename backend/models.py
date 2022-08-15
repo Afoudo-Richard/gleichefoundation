@@ -1,4 +1,6 @@
 
+from email.policy import default
+import re
 from django.db import models
 
 # Create your models here.
@@ -6,10 +8,10 @@ from django.db import models
 class NewsBlog(models.Model):
     title = models.CharField(max_length=200, null=False)
     content = models.TextField()
-    image = models.ImageField(upload_to="NewBlogThumbnail",null=True)
+    image = models.ImageField(upload_to="NewBlogThumbnail", default="default_news_image.jpg",blank=True)
     publish = models.BooleanField(default=False)
-    allow_public_comments = models.BooleanField(default=False)
-    user_comment = models.TextField(null=True)
+    allow_public_comments = models.BooleanField(default=False,)
+    user_comment = models.TextField(null=True,blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
@@ -74,7 +76,12 @@ class Sponsor(models.Model):
 
 class Testimonial(models.Model):
     fullname = models.CharField(max_length=200, null=False)
-    info = models.TextField()
+    image = models.ImageField(upload_to="Testimonials", default="default_user_image.png",blank=True)
+    occupation = models.TextField(null=False)
+    testimony = models.TextField(null=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+
 
     def __str__(self) -> str:
         return self.fullname
