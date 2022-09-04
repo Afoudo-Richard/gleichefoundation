@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-v296+&zoo_q&+gr*us7oxy2$e#@i9w63qe89ktr83e!lv86a^7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','gleichefoundation.herokuapp.com']
+MAIN_DOMAIN = 'gleichefoundation.herokuapp.com'
+ALLOWED_HOSTS = ['127.0.0.1',MAIN_DOMAIN]
 
 
 # Application definition
@@ -44,11 +45,17 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_browser_reload',
+    'api',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -164,3 +171,13 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 # RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
 
 # my_secret = os.environ.get("MY_SECRET", 'dev default value')
+
+
+# CORS_ALLOWED_ORIGINS = [
+#     "https://example.com",
+#     "https://sub.example.com",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000",
+# ]
+
+CORS_ALLOW_ALL_ORIGINS = True

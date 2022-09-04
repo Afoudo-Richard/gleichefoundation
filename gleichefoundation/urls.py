@@ -22,6 +22,10 @@ urlpatterns = [
     path('', include('frontend.urls')),
     path('system/', include('backend.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
+    path('api/v1/', include("api.urls")),
+    path('api/v1/', include("djoser.urls")),
+    path('api/v1/', include("djoser.urls.authtoken")),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

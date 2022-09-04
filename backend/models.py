@@ -1,25 +1,37 @@
 
 from email.policy import default
+from enum import unique
 import re
 from django.db import models
+from autoslug import AutoSlugField
+from gleichefoundation.settings import MAIN_DOMAIN, MEDIA_ROOT_FOLDER
 
 # Create your models here.
+
+news_upload_to_dir = "NewBlogThumbnail"
 
 class NewsBlog(models.Model):
     title = models.CharField(max_length=200, null=False)
     content = models.TextField()
-    image = models.ImageField(upload_to="NewBlogThumbnail", default="default_news_image.jpg",blank=True)
+    image = models.ImageField(upload_to=news_upload_to_dir, default="default_news_image.jpg",blank=True)
     publish = models.BooleanField(default=False)
     allow_public_comments = models.BooleanField(default=False,)
     user_comment = models.TextField(null=True,blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-
+    slug = AutoSlugField(populate_from='title', unique_with='date_created__month')
     def __str__(self) -> str:
         return self.title
 
     class Meta:
         verbose_name = 'news_blog'
         verbose_name_plural = 'news_blogs'
+        ordering = ('-date_created',)
+
+    def absolute_url(self):
+        return f'{MAIN_DOMAIN}/news_blog/read/{self.slug}'
+    
+    def news_image(self):
+        return f'{MAIN_DOMAIN}/{MEDIA_ROOT_FOLDER}{self.image.url}/'
 
 class UpcomingEvent(models.Model):
     title = models.CharField(max_length=200, null=False)
