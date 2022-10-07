@@ -1,5 +1,7 @@
 {% load tailwind_tags %}
 {% load static %}
+{% load web_settings %}
+{{settings}}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +82,7 @@
 
     {% endblock %}
     <div class="fixed z-40 bottom-14 right-5 flex-col">
-      <a href="https://api.whatsapp.com/send?phone=+237672367020&text=Hi,I would like to get more information..." target="_blank">
+      <a href="https://api.whatsapp.com/send?phone={% settings 'whatsapp_phone_number' %}&text=Hi,I would like to get more information..." target="_blank">
         <div class="w-14">
           <img src="{% static 'assets/whatsapp_logo.png' %}" alt="whatsapp us">
         </div>

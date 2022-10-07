@@ -1,24 +1,25 @@
 {% load static %}
+{% load web_settings %}
 <div class="hidden md:flex container justify-between items-center py-2 tracking-widest">
     <div class="flex gap-4">
         <span class=" text-gray-400 text-base">
-            <a href="https://www.facebook.com/GleicheFoundation/">
+            <a href="{% settings 'facebook_link' %}">
                 <i class="fa-brands fa-facebook-f"></i>
             </a>
         </span>
 
         <span class=" text-gray-400 text-base">
-            <a href="https://www.youtube.com/channel/UCxvK2topyP8xdzhIf9mSwzw">
+            <a href="{% settings 'youtube_link' %}">
                 <i class="fa-brands fa-youtube"></i>
             </a>
         </span>
         <span class=" text-gray-400 text-base">
-            <a href="https://twitter.com/Gleichefoundat1">
+            <a href="{% settings 'twitter_link' %}">
                 <i class="fa-brands fa-twitter"></i>
             </a>
         </span>
         <span class=" text-gray-400 text-base">
-            <a href="https://www.instagram.com/gleiche_foundation/">
+            <a href="{% settings 'instagram_link' %}">
                 <i class="fa-brands fa-instagram"></i>
             </a>
         </span>

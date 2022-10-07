@@ -1,3 +1,6 @@
+{% load web_settings %}
+{% settings 'allow_bottom_quotes_scroll_banner' as allow_quotes_banner %}
+{% if allow_quotes_banner %}
 <div class="fixed bottom-0 left-0 bg-secondary w-full h-7 md:h-10 z-40 overflow-hidden flex items-center">
 
     <div class="whitespace-nowrap inline-block m-scroll">
@@ -9,6 +12,6 @@
         </span>
         {% endfor %}
     </div>
-
-
 </div>
+{% endif %}
+

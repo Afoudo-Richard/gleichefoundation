@@ -27,8 +27,9 @@ SECRET_KEY = 'django-insecure-v296+&zoo_q&+gr*us7oxy2$e#@i9w63qe89ktr83e!lv86a^7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-MAIN_DOMAIN = 'gleichefoundation.herokuapp.com'
-ALLOWED_HOSTS = ['127.0.0.1',MAIN_DOMAIN]
+ 
+MAIN_DOMAIN = 'http://127.0.0.1:8000'
+ALLOWED_HOSTS = ['127.0.0.1','gleichefoundation.herokuapp.com']
 
 
 # Application definition
@@ -96,6 +97,10 @@ DATABASES = {
     }
 }
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -160,12 +165,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_ROOT_FOLDER)
 env = environ.Env()
 environ.Env.read_env()
 # Email configuration
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST =  os.environ.get("EMAIL_HOST")
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST =  os.environ.get("EMAIL_HOST")
+EMAIL_HOST =  'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = 'richardafoudo07@gmail.com'
+EMAIL_HOST_PASSWORD = 'olgcggoihgmgcatk'
 
 # Custom setting. To email
 # RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
@@ -181,3 +194,11 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 # ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+STRIPE_PUBLIC_KEY = "pk_test_51GqGfNGA8QyCkfkO42OaT4bclczJ9rGLdxUZ74AzvOtzNYaxG8Fxzdys7WH6t9acHN1GLEWYbrfCUQ0GhuKlPVWn00gRZ95csV"
+STRIPE_SECRET_KEY = "sk_test_51GqGfNGA8QyCkfkODeNUVzVExDxUftrEp6kJVu68F8pHoQehjKe7ugNXVJCqKQX3gPy44zkmnMdIoIzQlBMkmIiH00XQ9AU8ap"
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 1,
+}

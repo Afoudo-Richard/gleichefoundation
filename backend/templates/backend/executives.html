@@ -1,0 +1,216 @@
+{% extends 'backend/main.html' %}
+
+
+{% block title %}
+System/Executives
+{% endblock %}
+
+
+{% block main %}
+
+<div class="fixed top-0 left-0 w-full h-full bg-black/50 justify-center items-center z-50 hidden" id="loading_wrapper">
+    <span class="text-3xl text-white font-extrabold">Loading...</span>
+</div>
+
+<div class="flex justify-between">
+    {% include 'backend/includes/page_header.html' with title='Executives' %}
+
+    <div>
+        {% url 'add_executive' as action_url %}
+        {% include 'backend/components/link_button.html' with text="Add Executive" link=action_url %}
+    </div>
+</div>
+
+<div class=" mt-5">
+    <table class="table_id display">
+
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Position</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for item in executives %}
+
+
+            <tr>
+                <td>
+                    <div class="flex flex-col items-center">
+                        <div class="w-20 mr-2">
+                            <a href="{% url 'update_executive_image' item.id %}">
+                                <img class="rounded-lg" src="/static/images{{item.image.url}}" alt="">
+                            </a>
+                        </div>
+                        <span class="text-center">
+                            {{item.fullName}}
+                        </span>
+                    </div>
+                </td>
+
+                <td>{{item.position}}</td>
+                <td>
+
+                    {% if item.publish == 0 %}
+                    <button
+                        class="inline-block px-4 py-1.5 bg-blue-500 hover:bg-blue-200 hover:shadow-2xl transition-all rounded-md text-white text-sm change_publish_status"
+                        data-id="{{item.id}}" data-publish="{{item.publish}}">Pubish
+                    </button>
+
+                    {% else %}
+                    <button
+                        class="inline-block px-4 py-1.5 bg-red-700 hover:bg-red-200 hover:shadow-2xl transition-all rounded-md text-white text-sm change_publish_status"
+                        data-id="{{item.id}}" data-publish="{{item.publish}}">Unpublish
+                    </button>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="flex">
+                        <form action="{% url 'delete_executive' item.id %}" method="POST">
+                            {% csrf_token %}
+                            {% include 'backend/components/submit_button.html' with text="Delete" style="bg-red-700" %}
+                        </form>
+                        {% url 'update_executive' item.id as updated_action_url %}
+                        {% include 'backend/components/link_button.html' with text="Edit" link=updated_action_url %}
+                    </div>
+                </td>
+                
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
+
+{% block jsScripts %}
+<script>
+
+    // change publish status
+
+    button = document.querySelectorAll('.change_publish_status')
+
+    button.forEach(element => {
+        element.addEventListener("click", function (event) {
+            let response = make_fetch(
+                "{% url 'change_executive_publish_status' %}",
+                {
+                    id: event.target.getAttribute('data-id'),
+                },
+            )
+            if(response){
+
+                if (event.target.getAttribute('data-publish') === 'False') {
+                    element.classList.add('bg-red-700', 'hover:bg-red-200')
+                    element.classList.remove('bg-blue-500', 'hover:bg-blue-200')
+                    element.innerHTML = 'Unpublish'
+                    element.setAttribute('data-publish', 'True')
+                } else {
+                    element.classList.add('bg-blue-500', 'hover:bg-blue-200')
+                    element.classList.remove('bg-red-700', 'hover:bg-red-200')
+                    element.innerHTML = 'Publish'
+                    element.setAttribute('data-publish', 'False')
+                }
+
+            }else{
+                // print something went wrong while trying to send data
+
+            }
+            
+            
+
+        });
+    });
+
+    async function make_fetch(url, formData) {
+        loading = document.querySelector('#loading_wrapper')
+
+
+        loading.classList.toggle('flex')
+        loading.classList.toggle('hidden')
+        let response = await fetch(url, {
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-CSRFToken": '{{ csrf_token }}'
+            },
+            body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+            loading.classList.toggle('flex')
+            loading.classList.toggle('hidden')
+            let json = await response.json()
+
+            return true;
+            
+        } else {
+            loading.classList.toggle('flex')
+            loading.classList.toggle('hidden')
+            alert("HTTP-Error: " + response.status);
+            return false;
+        }
+
+
+    }
+
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('item_data', () => ({
+            formMessage: "asdf asd fa",
+            isLoading: false,
+            change_allow_comment_status() {
+                alert("Helloooooooooooooooooooooooo x 10")
+                console.log("inside change status")
+                // const FORM_URL = "{% url 'change_news_blog_allow_comment_status' %}";
+
+                // formData = {
+                //     csrfmiddlewaretoken: '{{ csrf_token }}',
+                //     fullname: this.fields.fullname.value,
+                // }
+
+                // this.formMessage = "";
+                // this.isLoading = true;
+                // fetch(FORM_URL, {
+                //     method: "POST",
+                //     credentials: 'same-origin',
+                //     headers: {
+                //         "Content-Type": "application/json",
+                //         Accept: "application/json",
+                //         "X-CSRFToken": '{{ csrf_token }}'
+                //     },
+                //     body: JSON.stringify(formData),
+                // })
+                //     .then(() => {
+
+                //         setTimeout(function () {
+                //             this.formMessage = "Message sent successfully"
+                //         }, 5000);
+
+
+                //         this.fields.fullname.value = "";
+                //         this.fields.email.value = "";
+                //         this.fields.subject.value = "";
+                //         this.fields.message.value = "";
+                //         this.formMessage = "Form successfully submitted.";
+
+                //         this.isLoading = false
+                //     })
+                //     .catch(() => {
+                //         this.isLoading = false
+                //         this.formMessage = "Something went wrong.";
+                //     });
+
+
+            }
+        }))
+    })
+</script>
+{% endblock %}

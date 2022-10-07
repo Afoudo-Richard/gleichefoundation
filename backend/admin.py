@@ -6,7 +6,7 @@ from django.contrib import admin
 from .models import *
 
 admin.site.register(NewsBlog)
-admin.site.register(Voluteer)
+admin.site.register(Volunteer)
 admin.site.register(UpcomingEvent)
 admin.site.register(Executive)
 admin.site.register(Donation)

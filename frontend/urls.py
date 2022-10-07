@@ -17,4 +17,5 @@ urlpatterns = [
     path('login/', views.login, name="login"),
     path('volunteers/', views.volunteers, name="volunteers"),
     path('picture_gallery/', views.picture_gallery, name="picture_gallery"),
+    path('be_a_volunteer/', views.be_a_volunteer, name="be_a_volunteer"),
 ]

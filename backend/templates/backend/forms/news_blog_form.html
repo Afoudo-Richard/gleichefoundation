@@ -18,7 +18,7 @@
 
 
 <div class="flex justify-between">
-    {% include 'backend/includes/page_header.html' with title='Add News&Blog' %}
+    {% include 'backend/includes/page_header.html' with title=title %}
 
     <div>
         {% url 'dashboard' as action_url %}
@@ -54,18 +54,16 @@
                             <label for="about" class="block text-sm font-medium text-gray-700"> Content </label>
                             <div class="mt-1">
 
-                                <textarea id="basic-example" name="content">
+                                <textarea id="tiny_mce_editor" name="content">
                                     {% autoescape off %}
                                     {% if form.content.value != None %} {{form.content.value}} {% endif %}
                                     {% endautoescape %}   
                                 </textarea>
 
-
-
                             </div>
-                            <!-- <p class="text-red-500 text-xs italic py-2" x-show="fields.content.isValid == false">
-                                <span x-text="fields.content.errorMsg"></span>
-                            </p> -->
+                            <p class="text-red-500 text-xs italic py-2" x-show="hasContent == false">
+                                <span>Enter Blog content</span>
+                            </p>
                         </div>
 
                         <div class="col-span-8 ">
@@ -115,37 +113,9 @@
 {% endblock %}
 
 {% block jsScripts %}
+<!-- Tiny mce -->
+{% include 'backend/components/tiny_mce_config.html'%}
 <script>
-
-    // tinymce.init({
-    //     selector: '#editor',
-    //     toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-    //         'bullist numlist outdent indent | link image | print preview media fullpage | ' +
-    //         'forecolor backcolor emoticons | help',
-    //     plugins: [
-    //         'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-    //         'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-    //         'table emoticons template paste help'
-    //     ],
-    //     convert_urls: false
-    // });
-
-    // Tiny McE
-    tinymce.init({
-        selector: 'textarea#basic-example',
-        height: 500,
-        plugins: [
-            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-            'insertdatetime', 'media', 'table', 'editimage', 'wordcount'
-        ],
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist outdent indent | link image | print preview media fullpage | ' +
-            'forecolor backcolor emoticons | help',
-        menubar: 'file edit insert view format table tools help',
-        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-    });
-
 
     document.addEventListener('alpine:init', () => {
         Alpine.data('contact_form', () => ({
@@ -175,6 +145,7 @@
                 },
 
             },
+            hasContent: true,
             isFormValid: true,
             validationCallback(field) {
                 let { value, rules } = field;
@@ -185,17 +156,25 @@
                 return { isValid, errorMsg };
             },
             submit() {
+                console.log(tinyMCE.get('tiny_mce_editor').getContent());
+                
                 this.isFormValid = !Object.values(this.fields).some(
                     (field) => !field.isValid
+
                 );
+                this.hasContent = tinyMCE.get('tiny_mce_editor').getContent({ format: "text"}) === "" ? false : true
+
                 if (this.isFormValid === false) {
                     !Object.values(this.fields).forEach(field => {
                         field.validate(this.validationCallback)
                     });
-                } else {
-                    this.$refs.contact_form.submit()
-
+                    return
                 }
+
+                if(this.hasContent === false) return
+                
+
+                this.$refs.contact_form.submit()
 
             }
         }))

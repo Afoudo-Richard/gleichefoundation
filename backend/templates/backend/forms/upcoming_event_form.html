@@ -1,0 +1,217 @@
+{% extends 'backend/main.html' %}
+
+{% block header %}
+<!-- Iodine js for form validation -->
+<script src="https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.js" defer></script>
+
+<!-- cropper js -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+
+{% endblock %}
+
+{% block main %}
+
+
+<div class="flex justify-between">
+    {% include 'backend/includes/page_header.html' with occupation='Add Volunteer' %}
+
+    <div>
+        {% url 'dashboard' as action_url %}
+        {% include 'backend/components/link_button.html' with text="Back" link=action_url %}
+    </div>
+</div>
+
+<div class=" mt-5">
+    <div class="flex flex-col justify-center items-center ">
+
+        <div class="w-full">
+            <div class="md:w-10/12 lg:w-9/12 mx-auto sm:p-6">
+                <form action="" enctype="multipart/form-data"
+                    x-ref="input_form" x-data="data" @submit.prevent="submit" method="POST">
+                    {% csrf_token %}
+                    <div class="w-full grid grid-cols-8 gap-4 p-4">
+
+                        <input type="hidden" name="next" value="true">
+                        <div class="col-span-8">
+                            <label for="fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" name="fullname" autocomplete="family-name"
+                                class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                :class="{'border-red-600':fields.fullname.isValid == false}" x-model="fields.fullname.value"
+                                @blur="fields.fullname.validate(validationCallback)"
+                                @input="fields.fullname.validate(validationCallback)">
+
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.fullname.isValid == false">
+                                <span x-text="fields.fullname.errorMsg"></span>
+                            </p>
+                        </div>
+                        <div class="col-span-8">
+                            <label for="occupation" class="block text-sm font-medium text-gray-700">Occupation</label>
+                            <input type="text" name="occupation" id="occupation" autocomplete="family-name"
+                                class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                :class="{'border-red-600':fields.occupation.isValid == false}" x-model="fields.occupation.value"
+                                @blur="fields.occupation.validate(validationCallback)"
+                                @input="fields.occupation.validate(validationCallback)">
+
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.occupation.isValid == false">
+                                <span x-text="fields.occupation.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <label for="testimony" class="block text-sm font-medium text-gray-700"> Testinomy </label>
+                            <div class="mt-1">
+                                <textarea id="testimony" name="testimony" rows="3"
+                                    class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="Write your testimony here"
+                                    :class="{'border-red-600':fields.testimony.isValid == false}"
+                                    x-model="fields.testimony.value" @blur="fields.testimony.validate(validationCallback)"
+                                    @input="fields.testimony.validate(validationCallback)">
+
+
+                            </textarea>
+                            </div>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.testimony.isValid == false">
+                                <span x-text="fields.testimony.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <label for="id_image">Image</label><br>
+                            <input type="file" id="id_image" name="image" accept="image/*" x-ref="image"><br>
+
+                            <div class="form-group">
+                                <div id="image-box" class="image-container"></div>
+                                <button class=" px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm"  id="crop-btn"
+                                    style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
+                            </div>
+
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.image.isValid == false">
+                                <span x-text="fields.image.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <div class="w-full p-4 ">
+
+                                {% if update %}
+                                <div class="w-24 mr-2">
+                                    <img class="rounded-lg w-full" src="/static/images{{form.image.value.url}}" alt="">
+                                </div>
+                                {% else %}
+                                <div class="w-24 mr-2">
+                                    <img class="rounded-lg w-full" src="/static/images/default_user_image.png" alt="">
+                                </div>
+                                {% endif %}  
+                            </div>
+            
+                            <p>The above image will be used if no image is provided.</p>
+                        </div>
+
+                        <div>
+                            {{form.publish.label}}
+                            {{form.publish}}
+                        </div>
+
+
+                    </div>
+                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-center">
+                        <button type="submit"
+                            class="inline-block px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm" id="confirm-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="hidden sm:block" aria-hidden="true">
+            <div class="py-5">
+                <div class="border-t border-gray-200">
+                    {{form.errors}}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+
+
+{% endblock %}
+
+{% block jsScripts %}
+{% include 'backend/components/image_cropper.html' with aspectRatio='1' %}
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('data', () => ({
+            fields: {
+                fullname: {
+                    value: '{% if form.fullname.value != None %}{{form.fullname.value}}{% endif %}',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+                occupation: {
+                    value: '{% if form.occupation.value != None %}{{form.occupation.value}}{% endif %}',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+                testimony: {
+                    value: '{% if form.testimony.value != None %}{{form.testimony.value}}{% endif %}',
+                    rules: ["required"],
+                    isValid: null,
+                    errorMsg: null,
+                    validate(callback) {
+                        let { isValid, errorMsg } = callback(this);
+                        this.isValid = isValid;
+                        this.errorMsg = errorMsg;
+                    },
+                },
+
+            },
+            isFormValid: true,
+            validationCallback(field) {
+                let { value, rules } = field;
+                let results = Iodine.assert(value, rules);
+                let { valid, error, rule } = results;
+                let isValid = valid
+                let errorMsg = error
+                return { isValid, errorMsg };
+            },
+            submit() {
+                this.isFormValid = !Object.values(this.fields).some(
+                    (field) => !field.isValid
+                );
+
+                if (this.isFormValid === false) {
+                    !Object.values(this.fields).forEach(field => {
+                        field.validate(this.validationCallback)
+                    });
+                    return
+                }
+
+                
+
+                this.$refs.input_form.submit()
+
+            }
+        }))
+    })
+</script>
+{% endblock %}

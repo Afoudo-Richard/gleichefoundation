@@ -2,6 +2,10 @@
 {% extends 'frontend/main.html' %}
 {% load static %}
 
+{% block title %}
+Become a volunteer
+{% endblock %}
+
 {% block header %}
 <!-- Iodine js for form validation -->
 <script src="https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.js" defer></script>
@@ -65,8 +69,8 @@
                                 <input type="radio" name="sex" id="female" value="male">
                                 <label for="female">Female</label>
                             </div>
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.message.isValid == false">
-                                <span x-text="fields.message.errorMsg"></span>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.sex.isValid == false">
+                                <span x-text="fields.sex.errorMsg"></span>
                             </p>
                         </div>
 
@@ -402,7 +406,7 @@
                 } else {
 
                     
-                    const FORM_URL = "{% url 'contact_gleiche' %}";
+                    const FORM_URL = "{% url 'be_a_volunteer' %}";
 
                     formData = {
                         csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -439,12 +443,17 @@
                                 this.isSuccessResponse = true;
                                 this.formMessage = "Message sent successfully"
 
-
-
-                                this.fields.fullname.value = "";
-                                this.fields.email.value = "";
-                                this.fields.subject.value = "";
-                                this.fields.message.value = "";
+                                // this.fields.fullname.value = "";
+                                // this.fields.email.value = "";
+                                // this.fields.phone.value = "";
+                                // this.fields.address.value = "";
+                                // this.fields.about_gleiche.value = "";
+                                // this.fields.interest_about_gleiche.value = "";
+                                // this.fields.help_gleiche.value = "";
+                                // this.fields.impact_gleiche.value = "";
+                                // this.fields.particular_skill.value = "";
+                                // this.fields.anything_else.value = "";
+                                // this.fields.autobiography.value = "";
 
                                 !Object.values(this.fields).forEach(field => {
                                     field.value = "";

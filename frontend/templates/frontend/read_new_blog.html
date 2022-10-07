@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block content %}
-
-{% include 'frontend/includes/page_banner.html' with text=news_blog.title  %}
+{% with image_url=news_blog.news_image %}
+{% include 'frontend/includes/page_banner.html' with image=image_url text=news_blog.title %}
 
 <div class="bg-gray-200">
     <div class="container py-6 md:py-12 flex flex-col gap-4">
@@ -21,11 +21,12 @@
                 {{news_blog.content}}
                 {% endautoescape %}
                 </div>
-                
+                {{news_blog.news_image}}
 
             </div>
         </div>
     </div>
 </div>
+{% endwith %}
 
 {% endblock %}

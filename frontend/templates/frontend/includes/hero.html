@@ -9,22 +9,14 @@
         </div>
         <div class="swiper-wrapper ">
 
-
-            {% for item in '012345678'|make_list %}
             <div class="swiper-slide">
-                <div class="lg:px-32 w-full h-full">
-                    <div class="w-full h-full relaive bg-no-repeat bg-cover bg-center"
-                        style="background-image: url('/static/assets/gleichefoundation_banner.jpg')" s>
-                        <div class="w-full h-full absolue inset-0 bg-black/50 flex items-center justify-center">
-                            <div class="flex flex-col items-center gap-6">
-                                <h6 class="text-3xl md:text-4xl lg:text-6xl text-white font-patrick-hand text-center">
-                                    Welcome to Gleiche foundation</h6>
-                                <p class="text-white text-xl md-text-2xl lg:text-3xl text-center">We all have equal
-                                    potentials</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include 'frontend/components/slide_item.html' %}
+            </div>
+
+            {% for item in slides %}
+            <div class="swiper-slide">
+                {% include 'frontend/components/slide_item.html' with item=item %}
+
             </div>
             {% endfor %}
         </div>
