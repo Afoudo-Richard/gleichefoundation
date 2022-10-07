@@ -13,7 +13,7 @@ class NewsBlogList(APIView):
     pagination_class = CustomPagination
 
     def get(self, request, format=None):
-        news_blogs = NewsBlog.objects.all()
+        news_blogs = NewsBlog.objects.filter(publish=1).order_by('-date_created')
         paginator = CustomPagination()
         paginator.default_limit = 1
         result_page = paginator.paginate_queryset(news_blogs, request)
