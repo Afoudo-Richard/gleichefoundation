@@ -27,9 +27,8 @@ SECRET_KEY = 'django-insecure-v296+&zoo_q&+gr*us7oxy2$e#@i9w63qe89ktr83e!lv86a^7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
- 
-MAIN_DOMAIN = 'http://127.0.0.1:8000'
-ALLOWED_HOSTS = ['127.0.0.1','gleichefoundation.herokuapp.com']
+MAIN_DOMAIN = 'gleichefoundation.herokuapp.com'
+ALLOWED_HOSTS = ['127.0.0.1',MAIN_DOMAIN,'web-production-e972.up.railway.app']
 
 
 # Application definition
@@ -165,20 +164,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_ROOT_FOLDER)
 env = environ.Env()
 environ.Env.read_env()
 # Email configuration
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST =  os.environ.get("EMAIL_HOST")
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST =  'smtp.gmail.com'
+EMAIL_HOST =  os.environ.get("EMAIL_HOST")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'richardafoudo07@gmail.com'
-EMAIL_HOST_PASSWORD = 'olgcggoihgmgcatk'
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST =  'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'richardafoudo07@gmail.com'
+# EMAIL_HOST_PASSWORD = 'olgcggoihgmgcatk'
 
 # Custom setting. To email
 # RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
