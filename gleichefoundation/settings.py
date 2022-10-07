@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-v296+&zoo_q&+gr*us7oxy2$e#@i9w63qe89ktr83e!lv86a^7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-MAIN_DOMAIN = 'gleichefoundation.herokuapp.com'
+MAIN_DOMAIN = 'https://gleichefoundation.herokuapp.com'
 ALLOWED_HOSTS = ['127.0.0.1',MAIN_DOMAIN,'web-production-e972.up.railway.app']
 
 
