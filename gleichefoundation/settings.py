@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
-    'corsheaders'
+    'corsheaders',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -202,3 +203,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 1,
 }
+
+CRONJOBS = [
+    ('55,57,59 * * * *', 'backend.cron.my_cron_job')
+]

@@ -36,6 +36,12 @@
     <!-- Swiper js -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
+    <!-- Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
     {% block header %}
 
     {% endblock %}
@@ -91,6 +97,10 @@
     {% include 'frontend/includes/quotes_banner.html' %}
     {% include 'frontend/includes/footer.html' %}
 </body>
+
+<script>
+  AOS.init();
+</script>
 
 {% block jsScripts %}
 

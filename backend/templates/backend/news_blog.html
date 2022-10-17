@@ -43,9 +43,7 @@ System/News&Blog
                 <td>
                     <div class="flex flex-col items-center">
                         <div class="w-20 mr-2">
-                            <a href="{% url 'update_news_image' item.id %}">
-                                <img class="rounded-lg" src="/static/images{{item.image.url}}" alt="">
-                            </a>
+                            <img class="rounded-lg" src="/static/images{{item.image.url}}" alt="">
                         </div>
                         <span class="text-center">
                             {{item.title}}
@@ -98,10 +96,15 @@ System/News&Blog
                     {% endif %}
                 </td>
                 <td>
-                    {% include 'backend/components/link_button.html' with text="View" link=action_url %}
-
-                    {% url 'update_news_blog' item.id as update_news_blog %}
-                    {% include 'backend/components/link_button.html' with text="Edit" link=update_news_blog %}
+                    <div class="flex">
+                        <form action="{% url 'delete_news_blog' item.id %}" method="POST" class="mr-2">
+                            {% csrf_token %}
+                            {% include 'backend/components/submit_button.html' with text="Delete" style="bg-red-700" %}
+                        </form>
+    
+                        {% url 'update_news_blog' item.id as update_news_blog %}
+                        {% include 'backend/components/link_button.html' with text="Edit" link=update_news_blog %}
+                    </div>
                 </td>
                 
             </tr>

@@ -41,9 +41,7 @@ System/Executives
                 <td>
                     <div class="flex flex-col items-center">
                         <div class="w-20 mr-2">
-                            <a href="{% url 'update_executive_image' item.id %}">
-                                <img class="rounded-lg" src="/static/images{{item.image.url}}" alt="">
-                            </a>
+                            <img class="rounded-lg" src="/static/images{{item.image.url}}" alt="">
                         </div>
                         <span class="text-center">
                             {{item.fullName}}
@@ -69,7 +67,7 @@ System/Executives
                 </td>
                 <td>
                     <div class="flex">
-                        <form action="{% url 'delete_executive' item.id %}" method="POST">
+                        <form action="{% url 'delete_executive' item.id %}" method="POST" class="mr-2">
                             {% csrf_token %}
                             {% include 'backend/components/submit_button.html' with text="Delete" style="bg-red-700" %}
                         </form>

@@ -2,6 +2,11 @@
 {% extends 'frontend/main.html' %}
 {% load static %}
 
+{% block header %}
+<!-- Iodine js for form validation -->
+<script src="https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.js" defer></script>
+{% endblock %}
+
 {% block title %}
 Contact Us
 {% endblock %}
@@ -19,8 +24,12 @@ Contact Us
                 
             </div>
         </div>
+        
     </div>
 </div>
+
+{% include 'frontend/includes/contact_form.html' %}
+
 
 {% endblock %}
 

@@ -21,10 +21,10 @@ System/Settings
 <div class="flex justify-between">
     {% include 'backend/includes/page_header.html' with title='Settings' %}
 
-    <div>
+    <!-- <div>
         {% url 'add_slide' as action_url %}
         {% include 'backend/components/link_button.html' with text="Save" link=action_url %}
-    </div>
+    </div> -->
 </div>
 
 <div class=" mt-5">
@@ -123,18 +123,7 @@ System/Settings
                         </p>
                     </div>
 
-                    <div class="col-span-8">
-                        <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
-                        <input type="text" name="subject" id="subject" autocomplete="family-name"
-                            class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            :class="{'border-red-600':fields.subject.isValid == false}" x-model="fields.subject.value"
-                            @blur="fields.subject.validate(validationCallback)"
-                            @input="fields.subject.validate(validationCallback)">
-
-                        <p class="text-red-500 text-xs italic py-2" x-show="fields.subject.isValid == false">
-                            <span x-text="fields.subject.errorMsg"></span>
-                        </p>
-                    </div>
+                
 
 
                     <div class="col-span-8 ">
@@ -270,17 +259,6 @@ System/Settings
                 gleiche_email: {
                     value: '{% if gleiche_email != None %}{{gleiche_email}}{% endif %}',
                     rules: ["required", "email"],
-                    isValid: null,
-                    errorMsg: null,
-                    validate(callback) {
-                        let { isValid, errorMsg } = callback(this);
-                        this.isValid = isValid;
-                        this.errorMsg = errorMsg;
-                    },
-                },
-                subject: {
-                    value: '',
-                    rules: ["required"],
                     isValid: null,
                     errorMsg: null,
                     validate(callback) {

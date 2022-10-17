@@ -24,6 +24,8 @@ def settings(arg):
         settings_file = open(f'{BASE_DIR}/web_settings.json', "r")
         settings_data = json.load(settings_file)
         data = settings_data[arg]
+
+        settings_file.close
     except:
         raise Exception(f"The setting {arg} is not present in web_settings.json file")
 

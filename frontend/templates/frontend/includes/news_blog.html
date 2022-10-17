@@ -9,7 +9,7 @@
             </div>
 
         </div>
-
+        {% if news_blogs %}
         <div class="w-full flex flex-wrap">
             {% for item in news_blogs %}
             
@@ -17,5 +17,21 @@
             {% endfor %}
 
         </div>
+
+        <div class="mt-4">
+            {% url 'news_blog' as action_url %}
+            {% include 'frontend/components/link_button.html' with text="See All" link=action_url %}
+        </div>
+        {% else %}
+        <div class="w-full">
+           <div class="flex justify-center">
+            <h5 class="text-lg">
+                No News posted
+            </h5>
+           </div>
+        </div>
+        {% endif %}
+
+        
     </div>
 </div>

@@ -10,6 +10,11 @@ from gleichefoundation.settings import MAIN_DOMAIN, MEDIA_ROOT_FOLDER
 
 # Create your models here.
 
+# default images
+
+default_gleiche_logo = "default_gleiche_logo.png"
+default_gleiche_banner_image = "default_gleiche_banner_image.jpg"
+
 news_upload_to_dir = "NewBlogThumbnail"
 executives_upload_to_dir = "ExecutivesImages"
 volunteer_upload_to_dir = "VolunteerUserImages"
@@ -23,7 +28,7 @@ causes_images_upload_to_dir = "Causes"
 class NewsBlog(models.Model):
     title = models.CharField(max_length=200, null=False)
     content = models.TextField()
-    image = models.ImageField(upload_to=news_upload_to_dir, default="default_news_image.jpg",blank=True)
+    image = models.ImageField(upload_to=news_upload_to_dir, default=default_gleiche_banner_image ,blank=True)
     publish = models.BooleanField(default=False)
     allow_public_comments = models.BooleanField(default=False,)
     user_comment = models.TextField(null=True,blank=True)
@@ -45,10 +50,9 @@ class NewsBlog(models.Model):
 
 class UpcomingEvent(models.Model):
     title = models.CharField(max_length=200, null=False)
-    caption = models.TextField(max_length=200, null=False)
-    date_time = models.DateTimeField(auto_now_add=True)
+    date_time = models.DateTimeField()
     content = models.TextField()
-    image = models.ImageField(upload_to=upcoming_upload_to_dir, default="default_user_image.png",blank=True)
+    image = models.ImageField(upload_to=upcoming_upload_to_dir, default=default_gleiche_banner_image, blank=True)
     publish = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -62,7 +66,7 @@ class UpcomingEvent(models.Model):
         return self.title
 
 class Volunteer(models.Model):
-    image = models.ImageField(upload_to=volunteer_upload_to_dir, default="default_user_image.png",blank=True)
+    image = models.ImageField(upload_to=volunteer_upload_to_dir, default=default_gleiche_logo, blank=True)
     firstname = models.CharField(max_length=200, null=False)
     lastname = models.CharField(max_length=200, null=False)
     publish = models.BooleanField(default=False)
@@ -78,7 +82,7 @@ class Volunteer(models.Model):
         return f"{self.firstname} {self.lastname}"
 
 class Executive(models.Model):
-    image = models.ImageField(upload_to=executives_upload_to_dir, default="default_user_image.png",blank=True)
+    image = models.ImageField(upload_to=executives_upload_to_dir, default=default_gleiche_logo, blank=True)
     firstname = models.CharField(max_length=200, null=False)
     lastname = models.CharField(max_length=200, null=False)
     position = models.CharField(max_length=200, null=False)
@@ -100,7 +104,7 @@ class Executive(models.Model):
 
 class Cause(models.Model):
     title = models.CharField(max_length=200, null=False)
-    image = models.ImageField(upload_to=causes_images_upload_to_dir, default="default_user_image.png",blank=True)
+    image = models.ImageField(upload_to=causes_images_upload_to_dir, default=default_gleiche_banner_image, blank=True)
     description = models.TextField()
     amount_needed = models.FloatField()
     amount_raised = models.FloatField(blank=True, default=0.0)
@@ -129,7 +133,7 @@ class Donation(models.Model):
 
 class Sponsor(models.Model):
     name = models.CharField(max_length=200, null=False)
-    image = models.ImageField(upload_to=sponsor_images_upload_to_dir, default="default_user_image.png",blank=True)
+    image = models.ImageField(upload_to=sponsor_images_upload_to_dir, default=default_gleiche_banner_image, blank=True)
     publish = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -139,7 +143,7 @@ class Sponsor(models.Model):
 
 class Testimonial(models.Model):
     fullname = models.CharField(max_length=200, null=False)
-    image = models.ImageField(upload_to=testimonial_images_upload_to_dir, default="default_user_image.png",blank=True)
+    image = models.ImageField(upload_to=testimonial_images_upload_to_dir, default=default_gleiche_logo,blank=True)
     occupation = models.TextField(null=False)
     testimony = models.TextField(null=False)
     publish = models.BooleanField(default=False)
@@ -151,7 +155,7 @@ class Testimonial(models.Model):
         return self.fullname
 
 class Slide(models.Model):
-    image = models.ImageField(upload_to=slide_images_upload_to_dir, default="default_user_image.png",blank=True)
+    image = models.ImageField(upload_to=slide_images_upload_to_dir, default=default_gleiche_banner_image, blank=True)
     title = models.CharField(max_length=200, null=False)
     subtitle = models.TextField(null=False)
     publish = models.BooleanField(default=False)

@@ -8,6 +8,11 @@
 <script src="https://cdn.tiny.cloud/1/d4yumsjfq9wmx775lmlaitd41csmmwmjf8nj4n4yf6dw8ul2/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
 
+<!-- cropper js -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+
 {% endblock %}
 
 {% block main %}
@@ -58,6 +63,45 @@
                             </p>
                         </div>
 
+                        <div class="col-span-8">
+                            <div class="w-full p-4 ">
+
+                                {% if update %}
+                                <div class="w-24 mr-2">
+                                    <img class="rounded-lg w-full" src="/static/images{{form.image.value.url}}" alt="">
+                                </div>
+                                {% else %}
+                                <div class="w-24 mr-2">
+                                    <img class="rounded-lg w-full" src="/static/images/default_gleiche_logo.png" alt="">
+                                </div>
+                                {% endif %}  
+                            </div>
+            
+                            <p>The above image will be used if no image is provided.</p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <label for="id_image">Image</label><br>
+                            <input type="file" id="id_image" name="image" accept="image/*" x-ref="image"><br>
+
+                            <div class="form-group">
+                                <div id="image-box" class="image-container"></div>
+                                <button class=" px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm"  id="crop-btn"
+                                    style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
+                            </div>
+
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.image.isValid == false">
+                                <span x-text="fields.image.errorMsg"></span>
+                            </p>
+                        </div>
+
+                        
+
+                        <div>
+                            {{form.publish.label}}
+                            {{form.publish}}
+                        </div>
+
 
                     </div>
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-center">
@@ -88,6 +132,7 @@
 {% endblock %}
 
 {% block jsScripts %}
+{% include 'backend/components/image_cropper.html' with aspectRatio='1' %}
 <!-- Tiny mce -->
 {% include 'backend/components/tiny_mce_config.html'%}
 <script>

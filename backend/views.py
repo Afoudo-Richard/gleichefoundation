@@ -15,7 +15,25 @@ def template(request):
 
 
 def index(request):
-    return render(request, 'backend/dashboard.html')
+
+    total_news_blog = NewsBlog.objects.all().count
+    total_executives = Executive.objects.all().count
+    total_volunteers = Volunteer.objects.all().count
+    total_slides = Slide.objects.all().count
+    total_testimonials = Testimonial.objects.all().count,
+    total_causes = Cause.objects.all().count
+    total_sponsors = Sponsor.objects.all().count
+
+    context = {
+        'total_news_blog': total_news_blog,
+        'total_executives': total_executives,
+        'total_volunteers': total_volunteers,
+        'total_slides': total_slides,
+        'total_testimonials': total_testimonials,
+        'total_causes' : total_causes,
+        'total_sponsors' : total_sponsors,
+    }
+    return render(request, 'backend/dashboard.html', context)
 
 ############################# News & Blog ###################################
 
@@ -27,17 +45,10 @@ def news_blog(request):
     }
     return render(request, 'backend/news_blog.html', data)
 
-
 def add_news_blog(request):
     if request.method == 'POST':
         form = NewsBlogForm(request.POST, request.FILES)
         if form.is_valid():
-
-            if request.POST.get('next') == "true":
-                return render(request, 'backend/forms/news_image_form.html', {
-        'form': form,
-        'title': "Add News&Blog"
-    })
             
             form.save()
             return redirect('system_news_blog')
@@ -53,24 +64,6 @@ def add_news_blog(request):
     return render(request, 'backend/forms/news_blog_form.html', context)
 
 
-def update_news_image(request, id):
-    news_blog = NewsBlog.objects.get(id=id)
-    if request.method == 'POST':
-        form = NewsBlogForm(request.POST,request.FILES, instance=news_blog)
-        if form.is_valid():
-            form.save()
-            return redirect('system_news_blog')
-        
-    else:
-        form = NewsBlogForm(instance=news_blog)
-        
-    context = {
-        'form': form,
-        'title': "Update News&Blog image",
-        'update': True,
-    }
-    return render(request, 'backend/forms/news_image_form.html', context)
-
 
 def update_news_blog(request, id):
     news_blog = NewsBlog.objects.get(id=id)
@@ -85,9 +78,19 @@ def update_news_blog(request, id):
         
     context = {
         'form': form,
-        'title': "Update News&Blog"
+        'title': "Update News&Blog",
+        'update': True,
     }
     return render(request, 'backend/forms/news_blog_form.html', context)
+
+def delete_news_blog(request, id):
+    new_blog = NewsBlog.objects.get(id=id)
+    if request.method == 'POST':
+        new_blog.delete()
+        return HttpResponseRedirect('/system/news_blog')
+
+    else:
+        return HttpResponseRedirect('/system/news_blog')
 
 def change_news_allow_comment_status(request):
     if request.method == "POST":
@@ -216,14 +219,7 @@ def volunteers(request):
 def add_volunteer(request):
     if request.method == 'POST':
         form = VolunteerForm(request.POST, request.FILES)
-        if form.is_valid():
-
-            if request.POST.get('next') == "true":
-                return render(request, 'backend/forms/volunteer_image_form.html', {
-        'form': form,
-        'title': "Add Volunteer Image"
-    })
-            
+        if form.is_valid():     
             form.save()
             return redirect('system_volunteers')
         
@@ -253,7 +249,7 @@ def update_volunteer(request, id):
         'form': form,
         'title': "Update Executive"
     }
-    return render(request, 'backend/forms/executive_form.html', context)
+    return render(request, 'backend/forms/volunteer_form.html', context)
 
 def update_volunteer_image(request, id):
     volunteer = Volunteer.objects.get(id=id)
@@ -548,7 +544,7 @@ def update_cause(request, id):
     return render(request, 'backend/forms/cause_form.html', context)
 
 def delete_cause(request, id):
-    cause = Sponsor.objects.get(id=id)
+    cause = Cause.objects.get(id=id)
     if request.method == 'POST':
         cause.delete()
         return HttpResponseRedirect('/system/causes')
@@ -613,7 +609,7 @@ def update_upcoming_event(request, id):
     return render(request, 'backend/forms/upcoming_event_form.html', context)
 
 def delete_upcoming_event(request, id):
-    upcoming_event = Sponsor.objects.get(id=id)
+    upcoming_event = UpcomingEvent.objects.get(id=id)
     if request.method == 'POST':
         upcoming_event.delete()
         return HttpResponseRedirect('/system/upcoming_events')

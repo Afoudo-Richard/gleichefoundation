@@ -10,7 +10,7 @@
             <p class="text-center text-sm md:text-base lg:text-lg text-secondary">
                 Meet Our sponsors
         </div>
-
+        {% if sponsors %}
         <div class="w-full">
             <div class="swiper VolunteerSwiper">
                 <div class="swiper-button-next"></div>
@@ -30,6 +30,20 @@
 
 
         </div>
+        {% else %}
+        <div class="w-full">
+           <div class="flex justify-center">
+            <h5 class="text-lg">
+                No sponsors available yet
+            </h5>
+           </div>
+        </div>
+        {% endif %}
+
+
+
+
+
 
     </div>
 </div>

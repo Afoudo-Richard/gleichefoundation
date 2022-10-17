@@ -98,7 +98,7 @@ System/Causes
     button.forEach(element => {
         element.addEventListener("click", function (event) {
             let response = make_fetch(
-                "{% url 'change_slide_publish_status' %}",
+                "{% url 'change_cause_publish_status' %}",
                 {
                     id: event.target.getAttribute('data-executive_id'),
                 },

@@ -15,7 +15,7 @@
 
 
 <div class="flex justify-between">
-    {% include 'backend/includes/page_header.html' with occupation='Add Volunteer' %}
+    {% include 'backend/includes/page_header.html' with date_time='Add Volunteer' %}
 
     <div>
         {% url 'dashboard' as action_url %}
@@ -35,45 +35,48 @@
 
                         <input type="hidden" name="next" value="true">
                         <div class="col-span-8">
-                            <label for="fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
-                            <input type="text" name="fullname" autocomplete="family-name"
+                            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                            <input type="text" name="title"
                                 class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                :class="{'border-red-600':fields.fullname.isValid == false}" x-model="fields.fullname.value"
-                                @blur="fields.fullname.validate(validationCallback)"
-                                @input="fields.fullname.validate(validationCallback)">
+                                :class="{'border-red-600':fields.title.isValid == false}" x-model="fields.title.value"
+                                @blur="fields.title.validate(validationCallback)"
+                                @input="fields.title.validate(validationCallback)">
 
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.fullname.isValid == false">
-                                <span x-text="fields.fullname.errorMsg"></span>
-                            </p>
-                        </div>
-                        <div class="col-span-8">
-                            <label for="occupation" class="block text-sm font-medium text-gray-700">Occupation</label>
-                            <input type="text" name="occupation" id="occupation" autocomplete="family-name"
-                                class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                :class="{'border-red-600':fields.occupation.isValid == false}" x-model="fields.occupation.value"
-                                @blur="fields.occupation.validate(validationCallback)"
-                                @input="fields.occupation.validate(validationCallback)">
-
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.occupation.isValid == false">
-                                <span x-text="fields.occupation.errorMsg"></span>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.title.isValid == false">
+                                <span x-text="fields.title.errorMsg"></span>
                             </p>
                         </div>
 
                         <div class="col-span-8">
-                            <label for="testimony" class="block text-sm font-medium text-gray-700"> Testinomy </label>
+                            <label for="date_time" class="block text-sm font-medium text-gray-700">Date Time</label>
+                            <input type="datetime-local" name="date_time" id="date_time"
+                                class="mt-1 focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                :class="{'border-red-600':fields.date_time.isValid == false}" x-model="fields.date_time.value"
+                                @blur="fields.date_time.validate(validationCallback)"
+                                @input="fields.date_time.validate(validationCallback)"
+                                >
+
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.date_time.isValid == false">
+                                <span x-text="fields.date_time.errorMsg"></span>
+                            </p>
+                        </div>
+
+
+                        <div class="col-span-8">
+                            <label for="content" class="block text-sm font-medium text-gray-700"> Content </label>
                             <div class="mt-1">
-                                <textarea id="testimony" name="testimony" rows="3"
+                                <textarea id="content" name="content" rows="3"
                                     class="shadow-sm focus:border-primary mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                                    placeholder="Write your testimony here"
-                                    :class="{'border-red-600':fields.testimony.isValid == false}"
-                                    x-model="fields.testimony.value" @blur="fields.testimony.validate(validationCallback)"
-                                    @input="fields.testimony.validate(validationCallback)">
+                                    placeholder="Write your content here"
+                                    :class="{'border-red-600':fields.content.isValid == false}"
+                                    x-model="fields.content.value" @blur="fields.content.validate(validationCallback)"
+                                    @input="fields.content.validate(validationCallback)">
 
 
                             </textarea>
                             </div>
-                            <p class="text-red-500 text-xs italic py-2" x-show="fields.testimony.isValid == false">
-                                <span x-text="fields.testimony.errorMsg"></span>
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.content.isValid == false">
+                                <span x-text="fields.content.errorMsg"></span>
                             </p>
                         </div>
 
@@ -101,7 +104,7 @@
                                 </div>
                                 {% else %}
                                 <div class="w-24 mr-2">
-                                    <img class="rounded-lg w-full" src="/static/images/default_user_image.png" alt="">
+                                    <img class="rounded-lg w-full" src="/static/images/default_gleiche_banner_image.jpg" alt="">
                                 </div>
                                 {% endif %}  
                             </div>
@@ -144,14 +147,14 @@
 {% endblock %}
 
 {% block jsScripts %}
-{% include 'backend/components/image_cropper.html' with aspectRatio='1' %}
+{% include 'backend/components/image_cropper.html' with aspectRatio='1.77777777778' %}
 
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('data', () => ({
             fields: {
-                fullname: {
-                    value: '{% if form.fullname.value != None %}{{form.fullname.value}}{% endif %}',
+                title: {
+                    value: '{% if form.title.value != None %}{{form.title.value}}{% endif %}',
                     rules: ["required"],
                     isValid: null,
                     errorMsg: null,
@@ -161,8 +164,8 @@
                         this.errorMsg = errorMsg;
                     },
                 },
-                occupation: {
-                    value: '{% if form.occupation.value != None %}{{form.occupation.value}}{% endif %}',
+                date_time: {
+                    value: "{% if form.date_time.value != None %}{{form.date_time.value|date:'c'}}{% endif %}",
                     rules: ["required"],
                     isValid: null,
                     errorMsg: null,
@@ -172,8 +175,8 @@
                         this.errorMsg = errorMsg;
                     },
                 },
-                testimony: {
-                    value: '{% if form.testimony.value != None %}{{form.testimony.value}}{% endif %}',
+                content: {
+                    value: "{% if form.content.value != None %}{{form.content.value}}{% endif %}",
                     rules: ["required"],
                     isValid: null,
                     errorMsg: null,

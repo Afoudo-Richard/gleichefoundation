@@ -99,7 +99,7 @@
                                 </div>
                                 {% else %}
                                 <div class="w-24 mr-2">
-                                    <img class="rounded-lg w-full" src="/static/images/default_user_image.png" alt="">
+                                    <img class="rounded-lg w-full" src="/static/images/default_gleiche_banner_image.jpg" alt="">
                                 </div>
                                 {% endif %}  
                             </div>
@@ -142,7 +142,7 @@
 {% endblock %}
 
 {% block jsScripts %}
-{% include 'backend/components/image_cropper.html' with aspectRatio='1' %}
+{% include 'backend/components/image_cropper.html' with aspectRatio='1.77777777778' %}
 
 <script>
     document.addEventListener('alpine:init', () => {

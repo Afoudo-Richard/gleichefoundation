@@ -1,4 +1,3 @@
-
 {% extends 'frontend/main.html' %}
 {% load static %}
 
@@ -15,15 +14,21 @@ Donation
         <span class="font-patrick-hand text-3xl md:text-4xl lg:text-5xl">Choose Donation Payment Method</span>
         <div class="w-24 h-1 bg-primary rounded-md"></div>
     </div>
-    <div class="py-12">
+    <div class="py-12 flex gap-4">
         <div>
-            <a href="{% url 'mobile_money' %}">
+            <a href="{% url 'mobile_money_donation' %}">
                 <img src="{% static 'assets/mtn_orange_money.jpeg' %}" alt="">
             </a>
-            
+
+        </div>
+
+        <div>
+            <a href="{% url 'paypal_donation' %}">
+                <img src="{% static 'assets/paypal+card.png' %}" alt="">
+            </a>
+
         </div>
     </div>
 </div>
 
 {% endblock %}
-

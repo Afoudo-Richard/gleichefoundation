@@ -66,6 +66,38 @@
                             </p>
                         </div>
 
+                        <div class="col-span-8">
+                            <div class="w-full p-4 ">
+
+                                {% if update %}
+                                <div class="w-24 mr-2">
+                                    <img class="rounded-lg w-full" src="/static/images{{form.image.value.url}}" alt="">
+                                </div>
+                                {% else %}
+                                <div class="w-24 mr-2">
+                                    <img class="rounded-lg w-full" src="/static/images/default_gleiche_banner_image.jpg" alt="">
+                                </div>
+                                {% endif %}  
+                            </div>
+            
+                            <p>The above image will be used if no image is provided.</p>
+                        </div>
+
+                        <div class="col-span-8">
+                            <label for="id_image">Image</label><br>
+                            <input type="file" id="id_image" name="image" accept="image/*" x-ref="image"><br>
+
+                            <div class="form-group">
+                                <div id="image-box" class="image-container"></div>
+                                <button class=" px-4 py-1.5 bg-primary hover:bg-primary-200 hover:shadow-2xl transition-all rounded-md text-white text-sm"  id="crop-btn"
+                                    style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
+                            </div>
+
+                            <p class="text-red-500 text-xs italic py-2" x-show="fields.image.isValid == false">
+                                <span x-text="fields.image.errorMsg"></span>
+                            </p>
+                        </div>
+
                         <div class="col-span-8 ">
                             <label for="user_comment" class="block text-sm font-medium text-gray-700"> Gleiche Comment (optinal) </label>
                             <div class="mt-1">
@@ -82,6 +114,11 @@
                             <p class="text-red-500 text-xs italic py-2" x-show="fields.comment.isValid == false">
                                 <span x-text="fields.comment.errorMsg"></span>
                             </p>
+                        </div>
+
+                        <div>
+                            {{form.publish.label}}
+                            {{form.publish}}
                         </div>
 
                     </div>
@@ -113,6 +150,7 @@
 {% endblock %}
 
 {% block jsScripts %}
+{% include 'backend/components/image_cropper.html' with aspectRatio='1.77777777778' %}
 <!-- Tiny mce -->
 {% include 'backend/components/tiny_mce_config.html'%}
 <script>

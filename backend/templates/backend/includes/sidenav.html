@@ -17,39 +17,39 @@
                    </form>
                 </li>
                {% url 'dashboard' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="Dashboard" link=action_url icon='<i class="fa-solid fa-chart-line"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="Dashboard" link=action_url icon='<i class="fa-solid fa-chart-line"></i>' path_name="/system/" %}
 
 
                {% url 'system_news_blog' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="News&Blog" link=action_url icon='<i class="fa-solid fa-book-open"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="News&Blog" link=action_url icon='<i class="fa-solid fa-book-open"></i>' path_name="/system/news_blog/" %}
 
                {% url 'system_executives' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="Executives" link=action_url icon='<i class="fa-solid fa-people-group"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="Executives" link=action_url icon='<i class="fa-solid fa-people-group"></i>' path_name="/system/executives/"  %}
 
                {% url 'system_volunteers' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="Volunteers" link=action_url icon='<i class="fa-solid fa-user"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="Volunteers" link=action_url icon='<i class="fa-solid fa-user"></i>' path_name="/system/volunteers/" %}
 
                {% url 'system_testimonials' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="Testimonials" link=action_url icon='<i class="fa-solid fa-face-awesome"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="Testimonials" link=action_url icon='<i class="fa-solid fa-ear-listen"></i>' path_name="/system/testimonials/" %}
 
                {% url 'system_slides' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="Slides" link=action_url icon='<i class="fa-regular fa-book-open"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="Slides" link=action_url icon='<i class="fa-solid fa-sliders"></i>' path_name="/system/slides/" %}
 
                {% url 'system_sponsors' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="Sponsors" link=action_url icon='<i class="fa-regular fa-money-check"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="Sponsors" link=action_url icon='<i class="fa-solid fa-handshake-angle"></i>' path_name="/system/sponsors/" %}
 
                {% url 'system_causes' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="Causes" link=action_url icon='<i class="fa-solid fa-person-sign"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="Causes" link=action_url icon='<i class="fa-solid fa-sign-hanging"></i>' path_name="/system/causes/" %}
 
                {% url 'system_upcoming_events' as action_url %}
-               {% include 'backend/components/side_nav_link.html' with title="Upcoming Event" link=action_url icon='<i class="fa-solid fa-person-sign"></i>' %}
+               {% include 'backend/components/side_nav_link.html' with title="Upcoming Event" link=action_url icon='<i class="fa-solid fa-calendar-days"></i>' path_name="/system/upcoming_events/" %}
  
              </ul>
 
              <ul class="space-y-2 pb-2">
 
               {% url 'system_settings' as action_url %}
-              {% include 'backend/components/side_nav_link.html' with title="Settings" link=action_url icon='<i class="fa-solid fa-gears"></i>' %}
+              {% include 'backend/components/side_nav_link.html' with title="Settings" link=action_url icon='<i class="fa-solid fa-gears"></i>' path_name="/system/settings/" %}
 
 
             </ul>

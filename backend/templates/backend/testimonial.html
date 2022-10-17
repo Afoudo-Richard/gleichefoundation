@@ -68,7 +68,7 @@ System/Executives
                 </td>
                 <td class="">
                     <div class="flex">
-                        <form action="{% url 'delete_volunteer' item.id %}" method="POST" class="mr-2">
+                        <form action="{% url 'delete_testimonial' item.id %}" method="POST" class="mr-2">
                             {% csrf_token %}
                             {% include 'backend/components/submit_button.html' with text="Delete" style="bg-red-700" %}
                         </form>

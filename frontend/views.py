@@ -22,6 +22,8 @@ def index(request):
     slides = Slide.objects.filter(publish=1).order_by('-date_created')[:10]
     sponsors = Sponsor.objects.filter(publish=1).order_by('-date_created')
     causes = Cause.objects.filter(publish=1).order_by('-date_created')
+    upcomming_events = UpcomingEvent.objects.filter(publish=1).order_by('-date_created')[:2]
+
 
     data = {
         'news_blogs':news_blogs,
@@ -30,6 +32,7 @@ def index(request):
         'slides': slides,
         'sponsors': sponsors,
         'causes': causes,
+        'upcomming_events': upcomming_events,
     }
 
     return render(request, "frontend/index.html", data)
@@ -62,8 +65,8 @@ def executives(request):
     }
     return render(request, "frontend/executives.html", data)
 
-def read_news_blog(request, id):
-    news_blog = NewsBlog.objects.get(id=id)
+def read_news_blog(request, id, slug):
+    news_blog = NewsBlog.objects.get(id=id, slug=slug)
     data = {
         'news_blog':news_blog
     }
@@ -118,11 +121,29 @@ def donate_through_mobile_money(request):
         print(collect)
         print("Data was posted")
         
-    return render(request, "frontend/mobile_money.html")
+    return render(request, "frontend/mobile_money.html")  
+
+def donate_paypal(request):
+        
+    return render(request, "frontend/paypal_donation.html")
 
 def contact_gleiche(request):
 
     if request.method == "POST":
+
+        # get the settings
+        settings_file = open(f'{BASE_DIR}/web_settings.json', "r")
+        settings_data = json.load(settings_file)
+        settings_file.close
+
+        try:
+            # get the settings
+            settings_file = open(f'{BASE_DIR}/web_settings.json', "r")
+            settings_data = json.load(settings_file)
+            settings_file.close
+        except:
+            settings_data = {'gleiche_email': 'richardafoudo07@gmail.com'}
+
         received_json_data=json.loads(request.body)
         data = {
             'name': received_json_data['fullname'],
@@ -135,7 +156,7 @@ def contact_gleiche(request):
             f"{received_json_data['fullname']} Contacted Gleiche Foundation",
             msg_html,
             settings.EMAIL_HOST_USER,
-            ['richardafoudo07@gmail.com', 'mrarctech@gmail.com'],
+            ['richardafoudo07@gmail.com',settings_data['gleiche_email']],
             )
         email.fail_silently = True
         email.content_subtype = "html"

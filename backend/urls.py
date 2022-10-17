@@ -10,7 +10,7 @@ urlpatterns = [
     path('news_blog/', views.news_blog, name="system_news_blog"),
     path('news_blog/add/', views.add_news_blog, name="add_news_blog"),
     path('news_blog/update/<str:id>', views.update_news_blog, name="update_news_blog"),
-    path('update_news_image/<str:id>', views.update_news_image, name="update_news_image"),
+    path('news_blog/delete/<str:id>', views.delete_news_blog, name="delete_news_blog"),
     path('change_publish_status/', views.change_publish_status, name="change_publish_status"),
     path('change_news_blog_allow_comment_status/', views.change_news_allow_comment_status, name="change_news_blog_allow_comment_status"),
     
@@ -65,7 +65,7 @@ urlpatterns = [
     path('upcoming_events/', views.upcoming_events, name="system_upcoming_events"),
     path('upcoming_event/add/', views.add_upcoming_event, name="add_upcoming_event"),
     path('upcoming_event/update/<str:id>', views.update_upcoming_event, name="update_upcoming_event"),
-    path('upcoming_event/delete/<str:id>', views.delete_upcoming_event, name="delete_cause"),
+    path('upcoming_event/delete/<str:id>', views.delete_upcoming_event, name="delete_upcoming_event"),
     path('change_upcoming_event_publish_status/', views.change_upcoming_event_publish_status, name="change_upcoming_event_publish_status"),
 
 

@@ -11,6 +11,8 @@
                 Meet Our Volunteer
         </div>
 
+
+        {% if volunteers %}
         <div class="w-full">
             <div class="swiper VolunteerSwiper">
                 <div class="swiper-button-next"></div>
@@ -28,6 +30,15 @@
                 <div class="swiper-pagination"></div>
             </div>
         </div>
+        {% else %}
+        <div class="w-full">
+           <div class="flex justify-center">
+            <h5 class="text-lg">
+                No Volunteers available
+            </h5>
+           </div>
+        </div>
+        {% endif %}
 
     </div>
 </div>

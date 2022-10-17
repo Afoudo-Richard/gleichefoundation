@@ -28,6 +28,7 @@ System/Executives
             <tr>
                 <th>Image</th>
                 <th>Title</th>
+                <th>DateTime</th>
                 <th>Action</th>
                 <th></th>
             </tr>
@@ -50,6 +51,8 @@ System/Executives
                 </td>
 
                 <td>{{item.title}}</td>
+                <td>{{item.date_time}}</td>
+
                 <td>
 
                     {% if item.publish == 0 %}
@@ -67,11 +70,11 @@ System/Executives
                 </td>
                 <td>
                     <div class="flex">
-                        <form action="{% url 'delete_slide' item.id %}" method="POST" class="mr-2">
+                        <form action="{% url 'delete_upcoming_event' item.id %}" method="POST" class="mr-2">
                             {% csrf_token %}
                             {% include 'backend/components/submit_button.html' with text="Delete" style="bg-red-700" %}
                         </form>
-                        {% url 'update_slide' item.id as updated_action_url %}
+                        {% url 'update_upcoming_event' item.id as updated_action_url %}
                         {% include 'backend/components/link_button.html' with text="Edit" link=updated_action_url %}
                     </div>
                 </td>
@@ -96,7 +99,7 @@ System/Executives
     button.forEach(element => {
         element.addEventListener("click", function (event) {
             let response = make_fetch(
-                "{% url 'change_slide_publish_status' %}",
+                "{% url 'change_upcoming_event_publish_status' %}",
                 {
                     id: event.target.getAttribute('data-executive_id'),
                 },

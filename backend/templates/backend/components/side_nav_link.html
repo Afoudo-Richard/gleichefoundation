@@ -1,6 +1,5 @@
 <li>
-    <a href="{{link}}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
-
+    <a href="{{link}}" class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group   {% if request.path == path_name %}bg-gray-100 {% endif %}">
       {{icon}}
        <span class="ml-3">{{title}}</span>
     </a>

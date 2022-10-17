@@ -1,4 +1,6 @@
 {% load static %}
+
+{% if causes %}
 <div class="bg-gray-200   bg-no-repeat bg-cover bg-center bg-fixed relative"
     style="background-image: url('/static/assets/happy2.jpeg')">
     <div class="bg-primary/30 pb-12">
@@ -12,7 +14,7 @@
                 <p class="text-center text-sm md:text-base lg:text-lg text-white">
                     Donate to one of our causes
             </div>
-
+            {% if causes %}
             <div class="w-full">
                 <div class="swiper TestimonialSwiper">
                     <div class="swiper-button-next"></div>
@@ -34,8 +36,22 @@
 
 
             </div>
+            <div class="mt-4">
+                {% url 'news_blog' as action_url %}
+                {% include 'frontend/components/link_button.html' with text="See All" link=action_url %}
+            </div>
+            {% else %}
+            <div class="w-full">
+               <div class="flex justify-center">
+                <h5 class="text-lg">
+                    No Causes available
+                </h5>
+               </div>
+            </div>
+            {% endif %}
 
 
         </div>
     </div>
 </div>
+{% endif %}
